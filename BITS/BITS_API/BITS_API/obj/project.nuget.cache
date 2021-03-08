@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SqZGJpheHhi0rPX3FGJUarnqwoNFtJhlrEiMtdmhVZnJ9x62qJtJPywud9S7vxvstajdZMdopwWHWZfH5D767Q==",
+  "dgSpecHash": "/VC6LFx8jfXca+0yCCPz8xyBL+8OIN7WWhZxbruXVhBYp0ntvR80eAAjric+s2km2HbrK5uung61JQWVcFeVvw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jakep\\Documents\\Semester 4\\SE 306\\BITS\\BITS_API\\BITS_API\\BITS_API.csproj",
+  "projectFilePath": "C:\\Users\\jakep\\Documents\\Semester 4\\SE 306\\BITS\\BITS\\BITS_API\\BITS_API\\BITS_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jakep\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Users\\jakep\\.nuget\\packages\\microsoft.aspnetcore\\2.1.7\\microsoft.aspnetcore.2.1.7.nupkg.sha512",
