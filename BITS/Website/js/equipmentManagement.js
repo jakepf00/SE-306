@@ -22,9 +22,8 @@ function updateWebpage(equipmentTable) {
     var newEquipmentList = "";
     
     equipmentTable.forEach(function(item) {
-        newEquipmentList = newEquipmentList.concat("<li><a href=\"#\">", item.aoeu, "</li></a>");
+        newEquipmentList = newEquipmentList.concat("<li><a data-toggle=\"modal\" data-target=\"#equipmentModal\">", item.aoeu, "</li></a>");
         // TODO: make list be filtered by search string -> add code for if it didn't match any results
-        // TODO: make links open a popup with information about the equipment and a way to rent it
     });
     
     equipmentResults.innerHTML = newEquipmentList;
