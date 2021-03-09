@@ -1,3 +1,5 @@
+var equipmentTable;
+
 function getEquipmentTable() {    
     var apiUrl = 'https://localhost:44335/api/Table1';
     fetch(apiUrl).then(response => {
@@ -5,6 +7,7 @@ function getEquipmentTable() {
     }).then(data => {
         // Work with JSON data here
         updateWebpage(data);
+        equipmentTable = data;
     }).catch(err => {
         // Do something for an error here
         console.log("an error ocurred in retrieving the equipment table from the database");
@@ -21,15 +24,25 @@ function updateWebpage(equipmentTable) {
     console.log(searchString);
     var newEquipmentList = "";
     
+    var tableLocation = 0;
     equipmentTable.forEach(function(item) {
-        newEquipmentList = newEquipmentList.concat("<li><a data-toggle=\"modal\" data-target=\"#equipmentModal\">", item.aoeu, "</li></a>");
-        // TODO: make list be filtered by search string -> add code for if it didn't match any results
+        tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
+        if (item.aoeu.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+            newEquipmentList = newEquipmentList.concat
+                ("<li><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.aoeu, "</li></a>");
+            // TODO: make list be filtered by search string -> add code for if it didn't match any results
+        }
     });
     
     equipmentResults.innerHTML = newEquipmentList;
 }
 
-function displayEquipment() {
-    console.log('Inside displayEquipment()');
+function displayEquipmentDetails(tableLocation) {
+    console.log("Inside displayEquipmentDetails(", tableLocation, ")");
+    console.log(equipmentTable);
+}
+
+function displayEquipmentList() {
+    console.log('Inside displayEquipmentList()');
     getEquipmentTable(); // calls updateWebpage() once the promise is fulfilled
 }
