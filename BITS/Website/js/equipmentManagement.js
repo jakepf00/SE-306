@@ -26,12 +26,12 @@ function updateWebpage(equipmentTable) {
     
     var tableLocation = 0;
     equipmentTable.forEach(function(item) {
-        tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
         if (item.aoeu.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
             newEquipmentList = newEquipmentList.concat
                 ("<li><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.aoeu, "</li></a>");
             // TODO: make list be filtered by search string -> add code for if it didn't match any results
         }
+        tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
     });
     
     equipmentResults.innerHTML = newEquipmentList;
@@ -39,7 +39,12 @@ function updateWebpage(equipmentTable) {
 
 function displayEquipmentDetails(tableLocation) {
     console.log("Inside displayEquipmentDetails(", tableLocation, ")");
-    console.log(equipmentTable);
+    console.log(equipmentTable[tableLocation].aoeu);
+
+    var equipmentModal = document.getElementById("modal_body");
+    var newEquipmentData = "<p>aoeu: " + equipmentTable[tableLocation].aoeu + "</p>";
+    newEquipmentData += "<p>oeui: " + equipmentTable[tableLocation].oeui + "</p>";
+    equipmentModal.innerHTML = newEquipmentData;
 }
 
 function displayEquipmentList() {
