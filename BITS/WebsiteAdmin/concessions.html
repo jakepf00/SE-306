@@ -59,7 +59,6 @@
         <li><a href="spaceScheduling.html">Reservations</a></li>
         <li><a href="equipmentRentals.html">Rentals</a></li>
         <li class="active"><a href="concessions.html">Concessions</a></li>
-
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -77,15 +76,24 @@
     </div>
     <div class="col-sm-8 text-left"> 
       <h1>Concessions Management</h1>
+      <p>Enter SKU to check availability of stock.</p>
+	    <input type="text" id="search_sku" name="search_sku" size="40"><br><br>
+	    <button type="button" id="search_button" onclick="displaySKU()">Search</button>
+	    <hr>
+      <h2>Results</h2>
     </div>
     <div class="col-sm-2 sidenav">
     </div>
   </div>
 </div>
 
+<!-- Footer -->
 <footer class="container-fluid text-center">
   <p>Brookings Indoor Training Site</p>
 </footer>
+
+<!-- Scripts -->
+<script src="js/concessions.js"></script>
 
 </body>
 </html>
