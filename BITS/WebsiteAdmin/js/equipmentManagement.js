@@ -37,6 +37,8 @@ function updateWebpage(equipmentTable) {
     equipmentResults.innerHTML = newEquipmentList;
 }
 
+
+// called when specific equipment is clicked from list
 function displayEquipmentDetails(tableLocation) {
     console.log("Inside displayEquipmentDetails(", tableLocation, ")");
     console.log(equipmentTable[tableLocation].aoeu);
@@ -47,6 +49,7 @@ function displayEquipmentDetails(tableLocation) {
     equipmentModal.innerHTML = newEquipmentData;
 }
 
+// called when search button is clicked
 function displayEquipmentList() {
     console.log('Inside displayEquipmentList()');
     getEquipmentTable(); // calls updateWebpage() once the promise is fulfilled
