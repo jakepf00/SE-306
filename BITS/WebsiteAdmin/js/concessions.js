@@ -1,9 +1,7 @@
-var concessionsTable;
-
 // called when search button is clicked
 function displaySKU() {
     console.log("Inside displaySKU()");
-    // findItemInSystem();
+    var location = findItemInSystem("jake      ");
     // updateWebpage();
 }
 
@@ -17,20 +15,20 @@ function findItemInSystem(SKU) {
     // also save database response in a global variable
     // returns -1 if the item is not contained in the database
 
-    var apiUrl = 'https://localhost:44335/api/Table1';
     fetch(apiUrl).then(response => {
         return response.json();
     }).then(data => {
         // Work with JSON data here
         concessionsTable = data;
-
-        var tableLocation = 0;
-        data.forEach(function(item) {
-            if (item.aoeu == SKU) {
+        
+        for(tableLocation = 0; tableLocation < data.length; tableLocation++) {
+            console.log (data[tableLocation].aoeu, SKU, data[tableLocation].aoeu == SKU);
+            if (data[tableLocation].aoeu == SKU) {
                 return tableLocation;
             }
-            tableLocation++;
-        });
+        }
+    
+        console.log(-1);
         return -1; // Item not found
 
     }).catch(err => {

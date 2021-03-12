@@ -1,7 +1,4 @@
-var equipmentTable;
-
 function getEquipmentTable() {    
-    var apiUrl = 'https://localhost:44335/api/Table1';
     fetch(apiUrl).then(response => {
         return response.json();
     }).then(data => {
