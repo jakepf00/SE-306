@@ -22,18 +22,16 @@ function findItemInSystem(SKU) {
         concessionsTable = data;
         
         for(tableLocation = 0; tableLocation < data.length; tableLocation++) {
-            console.log (data[tableLocation].aoeu, SKU, data[tableLocation].aoeu == SKU);
             if (data[tableLocation].aoeu == SKU) {
                 return tableLocation;
             }
         }
     
-        console.log(-1);
         return -1; // Item not found
 
     }).catch(err => {
-        // Do something for an error here
-        console.log("an error ocurred in retrieving the concessions table from the database");
+        console.log("An error ocurred in retrieving the concessions table from the database");
+        return -1;
     });
 }
 
