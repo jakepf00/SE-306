@@ -1,5 +1,5 @@
 CREATE TABLE ConcessionsInventory (
-	SKU			int,
+	SKU		int,
 	ItemName	varchar(255),
 	Cost		float,
 	Quantity	int,
@@ -32,26 +32,28 @@ CREATE TABLE CustomerInfo (
 	fName		varchar(255),
 	lName		varchar(255),
 	Address		varchar(255),
-	Age			int,
+	Age		int,
 	PostalCode	int,
 	Email		varchar(255),
 	eventType	int not null default 1,
+	City 		varchar(255),
+	State 		varchar(2),
 	constraint fk_event_type foreign key (eventType) REFERENCES Event_Type (id),
 	PRIMARY KEY (Customer_ID)
 	);
 
 CREATE TABLE EmployeeInfo (
 	Employee_ID int,
-	birth_date	date,
 	fName		varchar(255),
 	lName		varchar(255),
 	Address		varchar(255),
-	Age			int,
+	Age		int,
 	PostalCode	int,
 	Email		varchar(255),
-	SSN			int,
-	hire_date	date,
+	SSN		int,
 	pay_rate	float,
 	department	varchar(255),
+	City 		varchar(255),
+	State 		varchar(2),
 	PRIMARY KEY (Employee_ID)
 	);
