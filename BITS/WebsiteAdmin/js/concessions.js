@@ -20,7 +20,7 @@ async function findItemInSystem(SKU) {
 
     var itemLocation;
 
-    fetch(apiUrl).then(response => {
+    fetch(concessionsInventoryApiUrl).then(response => {
         return response.json();
     }).then(data => {
         concessionsTable = data;
