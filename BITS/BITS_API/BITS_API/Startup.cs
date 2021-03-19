@@ -36,6 +36,11 @@ namespace BITS_API
 
             // this will tell the app that we want to use these services in the controller, you have to add one of these for each service you have
             services.AddScoped<ITable1Service, Table1Service>();
+            services.AddScoped<IConcessionsInventoryService, ConcessionsInventoryService>();
+            //services.AddScoped<ICustomerInfoService, CustomerInfoService>();
+            //services.AddScoped<IEmployeeInfoService, EmployeeInfoService>();
+            //services.AddScoped<IEquipmentService, EquipmentService>();
+            // Add a service for Event_Type table?
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

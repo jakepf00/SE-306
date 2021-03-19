@@ -15,6 +15,11 @@ namespace BITS_API.Models
         {
         }
 
+        public virtual DbSet<ConcessionsInventory> ConcessionsInventory { get; set; }
+        public virtual DbSet<CustomerInfo> CustomerInfo { get; set; }
+        public virtual DbSet<EmployeeInfo> EmployeeInfo { get; set; }
+        public virtual DbSet<Equipment> Equipment { get; set; }
+        public virtual DbSet<EventType> EventType { get; set; }
         public virtual DbSet<Table1> Table1 { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,6 +33,140 @@ namespace BITS_API.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ConcessionsInventory>(entity =>
+            {
+                entity.HasKey(e => e.Sku);
+
+                entity.Property(e => e.Sku)
+                    .HasColumnName("SKU")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ItemName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<CustomerInfo>(entity =>
+            {
+                entity.HasKey(e => e.CustomerId);
+
+                entity.Property(e => e.CustomerId)
+                    .HasColumnName("Customer_ID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EventType)
+                    .HasColumnName("eventType")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.FName)
+                    .HasColumnName("fName")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LName)
+                    .HasColumnName("lName")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.EventTypeNavigation)
+                    .WithMany(p => p.CustomerInfo)
+                    .HasForeignKey(d => d.EventType)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_event_type");
+            });
+
+            modelBuilder.Entity<EmployeeInfo>(entity =>
+            {
+                entity.HasKey(e => e.EmployeeId);
+
+                entity.Property(e => e.EmployeeId)
+                    .HasColumnName("Employee_ID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BirthDate)
+                    .HasColumnName("birth_date")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Department)
+                    .HasColumnName("department")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FName)
+                    .HasColumnName("fName")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.HireDate)
+                    .HasColumnName("hire_date")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.LName)
+                    .HasColumnName("lName")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PayRate).HasColumnName("pay_rate");
+
+                entity.Property(e => e.Ssn).HasColumnName("SSN");
+            });
+
+            modelBuilder.Entity<Equipment>(entity =>
+            {
+                entity.HasKey(e => e.EqId);
+
+                entity.Property(e => e.EqId)
+                    .HasColumnName("Eq_ID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<EventType>(entity =>
+            {
+                entity.ToTable("Event_Type");
+
+                entity.HasIndex(e => e.EventType1)
+                    .HasName("UQ__Event_Ty__CB9D1581D9F81447")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.EventType1)
+                    .IsRequired()
+                    .HasColumnName("EventType")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Table1>(entity =>
             {
                 entity.HasKey(e => e.Aoeu);
