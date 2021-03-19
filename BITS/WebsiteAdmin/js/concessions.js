@@ -1,11 +1,19 @@
 // called when search button is clicked
 function displaySKU() {
-    var SKU = document.getElementById("search_sku").value;
+    var SKU = document.getElementById("search_sku").value; // TODO: change to call scanSKU
     findItemInSystem(SKU).then(updateWebpage, updateWebpageFail);
 }
 
-function removeItemFromInventory() {
-
+// TODO: call this function when delete button is clicked on a specific equipment
+function removeItemFromInventory(location) {
+    // maybe add 'are you sure' modal
+    var areYouSure = false;
+    if (location == -1 || areYouSure == false) {
+        console.log("The item was not deleted from the system")
+    }
+    else {
+        removeItemFromSystem(location);
+    }
 }
 
 function scanSKU() {
@@ -29,6 +37,7 @@ async function findItemInSystem(SKU) {
         for(tableLocation = 0; tableLocation < data.length; tableLocation++) {
             if (data[tableLocation].aoeu == SKU) {
                 itemLocation = tableLocation;
+                // maybe add a break? If it's found, we don't need to loop rest of table
             }
         }
         console.log(itemLocation);
@@ -43,10 +52,13 @@ async function findItemInSystem(SKU) {
     return itemLocation;
 }
 
-function removeItemFromSystem(SKU) {
-    // use given SKU to remove item from database
+function removeItemFromSystem(tableLocation) {
+    // use given tableLocation to remove item from database
+    // delete concessionsTabe[tableLocation]
 }
 
+// TODO: add info about concessions item
+// TODO: make 'delete item' button that calls removeItemFromInventory with the correct SKU
 function updateWebpage(tableLocation) {
     var concessionsResults = document.getElementById("concessions_results");
     var newConcessionsResults = "";
