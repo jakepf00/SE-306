@@ -24,7 +24,9 @@ INSERT INTO EmployeeInfo (Employee_ID, fName, lName, Address, Age, PostalCode, E
 values
 	(1, 'Roberto', 'Marquez', '909 7th St E', 41, 57006, 'RobMarquez@gmail.com', 75359831, 25, 'General Manager', 'Brookings', 'SD'),
 	(2, 'Karen', 'Smith', '547 23 Ave SW', 21, 57104, 'Karen.Smith@yahoo.com', 909034642, 13, 'Concessions Worker', 'Sioux Falls', 'SD'),
-	(3, 'Kenny', 'Roberts', '303 13St S', 31, 57006, 'RobertsKenny@outlook.com', 790714615, 19 ,'Equipment Manager', 'Brookings', 'SD');
+	(3, 'Kenny', 'Roberts', '303 13St S', 31, 57006, 'RobertsKenny@outlook.com', 790714615, 19 ,'Equipment Manager', 'Brookings', 'SD'),
+	(4, 'James', 'Brown', '564 2nd St W', 22, 56374, 'JBrown@gmail.com', 652254215, 12, 'Front Desk', 'Saint Joseph', 'MN'),
+	(5, 'Marcia', 'Robin', '4895 Hill St NE', 34, 57007, 'MarciaRobin@hotmail,com', 123456789,  19,'Concessions Manager', 'Brookings', 'SD');
 
 INSERT INTO Equipment (Eq_ID, Name, Location, Quantity)
 values
