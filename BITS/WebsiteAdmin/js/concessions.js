@@ -35,7 +35,7 @@ async function findItemInSystem(SKU) {
         
         itemLocation = -1;
         for(tableLocation = 0; tableLocation < data.length; tableLocation++) {
-            if (data[tableLocation].aoeu == SKU) {
+            if (data[tableLocation].sku == SKU) {
                 itemLocation = tableLocation;
                 // maybe add a break? If it's found, we don't need to loop rest of table
             }
@@ -64,7 +64,7 @@ function updateWebpage(tableLocation) {
     var newConcessionsResults = "";
 
     if (tableLocation != -1) {
-        newConcessionsResults += concessionsTable[tableLocation].aoeu;
+        newConcessionsResults += concessionsTable[tableLocation].itemName;
     }
     else newConcessionsResults = "No item matched the given SKU";
 

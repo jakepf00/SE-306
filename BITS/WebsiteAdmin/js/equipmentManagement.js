@@ -1,5 +1,5 @@
 function getEquipmentTable() {    
-    fetch(apiUrl).then(response => {
+    fetch(equipmentApiUrl).then(response => {
         return response.json();
     }).then(data => {
         // Work with JSON data here
@@ -23,9 +23,10 @@ function updateWebpage(equipmentTable) {
     
     var tableLocation = 0;
     equipmentTable.forEach(function(item) {
-        if (item.aoeu.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+        console.log(item.name);
+        if (item.name.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
             newEquipmentList = newEquipmentList.concat
-                ("<li><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.aoeu, "</li></a>");
+                ("<li><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.name, "</li></a>");
             // TODO: make list be filtered by search string -> add code for if it didn't match any results
         }
         tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
@@ -37,12 +38,9 @@ function updateWebpage(equipmentTable) {
 
 // called when specific equipment is clicked from list
 function displayEquipmentDetails(tableLocation) {
-    console.log("Inside displayEquipmentDetails(", tableLocation, ")");
-    console.log(equipmentTable[tableLocation].aoeu);
-
     var equipmentModal = document.getElementById("modal_body");
-    var newEquipmentData = "<p>aoeu: " + equipmentTable[tableLocation].aoeu + "</p>";
-    newEquipmentData += "<p>oeui: " + equipmentTable[tableLocation].oeui + "</p>";
+    var newEquipmentData = "<p>Name: " + equipmentTable[tableLocation].name + "</p>";
+    newEquipmentData += "<p>Location: " + equipmentTable[tableLocation].location + "</p>";
     equipmentModal.innerHTML = newEquipmentData;
 }
 
