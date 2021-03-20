@@ -4,16 +4,22 @@ function displaySKU() {
     findItemInSystem(SKU).then(updateWebpage, updateWebpageFail);
 }
 
-// TODO: call this function when delete button is clicked on a specific equipment
+// Called when delete button is clicked on a specific item
 function removeItemFromInventory(location) {
     // maybe add 'are you sure' modal
-    var areYouSure = false;
+    var areYouSure = true;
     if (location == -1 || areYouSure == false) {
         console.log("The item was not deleted from the system")
     }
     else {
+        console.log("Deleting " + location);
         removeItemFromSystem(location);
     }
+}
+
+// Called when update stock level button is clicked on a specific item
+function updateStockLevel(location) {
+    console.log("Updating stock level " + location);
 }
 
 function scanSKU() {
@@ -35,12 +41,11 @@ async function findItemInSystem(SKU) {
         
         itemLocation = -1;
         for(tableLocation = 0; tableLocation < data.length; tableLocation++) {
-            if (data[tableLocation].sku == SKU) {
+            if (data[tableLocation].sku == SKU) { // add support for search by name?
                 itemLocation = tableLocation;
                 // maybe add a break? If it's found, we don't need to loop rest of table
             }
         }
-        console.log(itemLocation);
         
     }).catch(err => {
         console.log("An error ocurred in retrieving the concessions table from the database");
@@ -64,7 +69,13 @@ function updateWebpage(tableLocation) {
     var newConcessionsResults = "";
 
     if (tableLocation != -1) {
-        newConcessionsResults += concessionsTable[tableLocation].itemName;
+        newConcessionsResults += "<p>SKU: " + concessionsTable[tableLocation].sku + "</p>"
+            + "<p>Name: " + concessionsTable[tableLocation].itemName + "</p>"
+            + "<p>Cost: $" + concessionsTable[tableLocation].cost.toFixed(2) + "</p>"
+            + "<p>Quantity: " + concessionsTable[tableLocation].quantity + "</p>"
+            + "<p>Location: " + concessionsTable[tableLocation].location + "</p>"
+            + "<button type=\"button\" id=\"update_inventory_button\" onclick=\"updateStockLevel(" + tableLocation + ")\">Update stock level</button>"
+            + "<button type=\"button\" id=\"remove_inventory_button\" onclick=\"removeItemFromInventory(" + tableLocation + ")\">Remove item from inventory</button>";
     }
     else newConcessionsResults = "No item matched the given SKU";
 
