@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/Table1",
+      "launchUrl": "api/concessionsinventory",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -82,7 +82,8 @@ namespace BITS_API.Controllers
 
             return NoContent();
         }
-
+        */
+        /*
         // POST: api/Equipment
         [HttpPost]
         public async Task<IActionResult> PostEquipment([FromBody] Equipment equipment)
@@ -92,10 +93,10 @@ namespace BITS_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Equipment.Add(equipment);
+            _service.Equipment.Add(equipment);
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -111,7 +112,8 @@ namespace BITS_API.Controllers
 
             return CreatedAtAction("GetEquipment", new { id = equipment.EqId }, equipment);
         }
-
+        */
+        /*
         // DELETE: api/Equipment/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEquipment([FromRoute] int id)

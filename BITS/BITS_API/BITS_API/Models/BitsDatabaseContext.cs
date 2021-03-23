@@ -20,7 +20,6 @@ namespace BITS_API.Models
         public virtual DbSet<EmployeeInfo> EmployeeInfo { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EventType> EventType { get; set; }
-        public virtual DbSet<Table1> Table1 { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -165,20 +164,6 @@ namespace BITS_API.Models
                     .HasColumnName("EventType")
                     .HasMaxLength(10)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Table1>(entity =>
-            {
-                entity.HasKey(e => e.Aoeu);
-
-                entity.ToTable("Table_1");
-
-                entity.Property(e => e.Aoeu)
-                    .HasColumnName("aoeu")
-                    .HasMaxLength(10)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Oeui).HasColumnName("oeui");
             });
         }
     }
