@@ -56,6 +56,14 @@ function displayEquipmentDetails(tableLocation) {
     newEquipmentData += "<p>Quantity: " + equipmentTable[tableLocation].quantity + "</p>";
     newEquipmentData += "<p>ID: " + equipmentTable[tableLocation].eqId + "</p>";
     equipmentModal.innerHTML = newEquipmentData;
+
+    var modalFooter = document.getElementById("modal_footer");
+    newEquipmentData = 
+          "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkOutEquipment(" + tableLocation + ")\">Check Out</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkInEquipment(" + tableLocation + ")\">Check In</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"reserveEquipment(" + tableLocation + ")\">Reserve</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
+    modalFooter.innerHTML = newEquipmentData;
 }
 
 // called when search by name button is clicked
@@ -108,4 +116,29 @@ function sortTableByLocation() {
             }
         }
     }
+}
+
+// called when add eq to db button is clicked
+function addEqToDatabase() {
+    console.log("adding eq..");
+}
+
+// called when remove eq from db button is clicked
+function removeEqFromDatabase() {
+    console.log("removing eq..");
+}
+
+// called when check out button is clicked from modal of specific equipment
+function checkOutEquipment(tableLocation) {
+    console.log("checking out " + equipmentTable[tableLocation].name);
+}
+
+// called when check in button is clicked from modal of specific equipment
+function checkInEquipment(tableLocation) {
+    console.log("checking in " + equipmentTable[tableLocation].name);
+}
+
+// called when reserve button is clicked from modal of specific equipment
+function reserveEquipment(tableLocation) {
+    console.log("reserving " + equipmentTable[tableLocation].name);
 }

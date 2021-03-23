@@ -87,6 +87,8 @@
 	    <div id="equipment_results"></div>
     </div>
     <div class="col-sm-2 sidenav">
+      <button type="button" onclick="addEqToDatabase()">Add equipment to database</button><br><br>
+      <button type="button" onclick="removeEqFromDatabase()">Remove equipment from database</button>
     </div>
   </div>
 </div>
@@ -106,9 +108,7 @@
         <h4 class="modal-title">View Equipment Details</h4>
       </div>
       <div class="modal-body" id="modal_body"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+      <div class="modal-footer" id="modal_footer"></div>
     </div>
 
   </div>
