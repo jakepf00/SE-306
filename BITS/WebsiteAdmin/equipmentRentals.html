@@ -41,8 +41,8 @@
     }
   </style>
 </head>
-<body>
 
+<body onload = "getEquipmentTable()">
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -78,7 +78,8 @@
       <h1>Equipment Rentals</h1>
       <p>Enter a search term to check availability of equipment.</p>
 	    <input type="text" id="search_string" name="search_string" size="40"><br><br>
-	    <button type="button" id="search_button" onclick="displayEquipmentList()">Search</button>
+	    <button type="button" onclick="searchEquipmentName()">Search by Name</button>
+      <button type="button" onclick="searchEquipmentLocation()">Search by Location</button>
 	    <hr>
       <h2>Results</h2>
       <button type="button" onclick="sortByName()">Sort Results by Name</button>

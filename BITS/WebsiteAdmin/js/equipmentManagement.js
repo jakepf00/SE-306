@@ -1,9 +1,9 @@
+// called when page is loaded
 function getEquipmentTable() {    
     fetch(equipmentApiUrl).then(response => {
         return response.json();
     }).then(data => {
         // Work with JSON data here
-        updateWebpage(data);
         equipmentTable = data;
     }).catch(err => {
         // Do something for an error here
@@ -11,24 +11,38 @@ function getEquipmentTable() {
     });
 }
 
-var searchString;
-function updateWebpage(equipmentTable) {
+var searchString = "";
+var searchCriteria = "name";
+function updateEquipmentList() {
     // from here, edit the webpage to display received data
     // loop through table, get each element name, add to list
     // -> will append to a string that will eventually be used in the HTML 
     var equipmentResults = document.getElementById("equipment_results");
     var newEquipmentList = "";
-    
     var tableLocation = 0;
-    equipmentTable.forEach(function(item) {
-        if (item.name.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
-            newEquipmentList = newEquipmentList.concat
-                ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.name, "</p></a>"
-                + "<p>&emsp;", item.location,"</p>");
-            // TODO: make list be filtered by search string -> add code for if it didn't match any results
-        }
-        tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
-    });
+
+    if (searchCriteria == "name") {
+        equipmentTable.forEach(function(item) {
+            if (item.name.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+                newEquipmentList = newEquipmentList.concat
+                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.name, "</p></a>"
+                    + "<p>&emsp;", item.location,"</p>");
+                // TODO: make list be filtered by search string -> add code for if it didn't match any results
+            }
+            tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
+        });
+    }
+    else if (searchCriteria == "location") {
+        equipmentTable.forEach(function(item) {
+            if (item.location.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+                newEquipmentList = newEquipmentList.concat
+                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.name, "</p></a>"
+                    + "<p>&emsp;", item.location,"</p>");
+                // TODO: make list be filtered by search string -> add code for if it didn't match any results
+            }
+            tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
+        });
+    }
     
     equipmentResults.innerHTML = newEquipmentList;
 }
@@ -44,15 +58,28 @@ function displayEquipmentDetails(tableLocation) {
     equipmentModal.innerHTML = newEquipmentData;
 }
 
-// called when search button is clicked
-function displayEquipmentList() {
+// called when search by name button is clicked
+function searchEquipmentName() {
     searchString = document.getElementById("search_string").value;
-    getEquipmentTable(); // calls updateWebpage() once the promise is fulfilled
+    searchCriteria = "name";
+    sortTableByName();
+    updateEquipmentList();
+}
+
+// called when search by location button is clicked
+function searchEquipmentLocation() {
+    searchString = document.getElementById("search_string").value;
+    searchCriteria = "location";
+    sortTableByLocation();
+    updateEquipmentList();
 }
 
 // called when sort by name button is clicked
 function sortByName() {
-    // sort equipmentTable, call update webpage
+    sortTableByName();    
+    updateEquipmentList();
+}
+function sortTableByName() {
     // TODO: using bubble sort, could probably improve this
     for (i = 0; i < equipmentTable.length; i++) {
         for (j = 0; j < equipmentTable.length - i - 1; j++) {
@@ -63,12 +90,14 @@ function sortByName() {
             }
         }
     }
-    updateWebpage(equipmentTable);
 }
 
 // called when sort by location button is clicked
 function sortByLocation() {
-    // sort equipmentTable, call update webpage
+    sortTableByLocation();
+    updateEquipmentList();
+}
+function sortTableByLocation() {
     // TODO: using bubble sort, could probably improve this
     for (i = 0; i < equipmentTable.length; i++) {
         for (j = 0; j < equipmentTable.length - i - 1; j++) {
@@ -79,5 +108,4 @@ function sortByLocation() {
             }
         }
     }
-    updateWebpage(equipmentTable);
 }
