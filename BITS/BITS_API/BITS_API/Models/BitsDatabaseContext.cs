@@ -21,6 +21,11 @@ namespace BITS_API.Models
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EventType> EventType { get; set; }
 
+        public void SaveContext()
+        {
+            this.SaveChanges();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

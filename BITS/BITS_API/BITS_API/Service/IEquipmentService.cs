@@ -9,5 +9,7 @@ namespace BITS_API.Service
     public interface IEquipmentService
     {
         IEnumerable<Equipment> GetAll();
+
+        void Add(Equipment e);
     }
 }

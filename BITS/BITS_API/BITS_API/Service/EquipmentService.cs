@@ -19,5 +19,11 @@ namespace BITS_API.Service
         {
             return _context.Equipment;
         }
+
+        public void Add(Equipment e)
+        {
+            _context.Add(e);
+            _context.SaveChanges();
+        }
     }
 }

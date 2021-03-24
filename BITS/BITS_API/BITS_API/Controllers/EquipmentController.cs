@@ -83,36 +83,15 @@ namespace BITS_API.Controllers
             return NoContent();
         }
         */
-        /*
+
         // POST: api/Equipment
         [HttpPost]
         public async Task<IActionResult> PostEquipment([FromBody] Equipment equipment)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _service.Equipment.Add(equipment);
-            try
-            {
-                await _service.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (EquipmentExists(equipment.EqId))
-                {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetEquipment", new { id = equipment.EqId }, equipment);
+            _service.Add(equipment);
+            return Ok(equipment);
         }
-        */
+
         /*
         // DELETE: api/Equipment/5
         [HttpDelete("{id}")]
