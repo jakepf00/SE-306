@@ -1,11 +1,10 @@
 // called when page is loaded
 function getEquipmentTable() {    
-    fetch(equipmentApiUrl).then(response => {
+    fetch(getEquipmentApiUrl).then(response => {
         return response.json();
     }).then(data => {
         // Work with JSON data here
         equipmentTable = data;
-        console.log(data);
     }).catch(err => {
         // Do something for an error here
         console.log("an error ocurred in retrieving the equipment table from the database");
@@ -116,7 +115,7 @@ function sortTableByName() {
     // TODO: using bubble sort, could probably improve this
     for (i = 0; i < equipmentTable.length; i++) {
         for (j = 0; j < equipmentTable.length - i - 1; j++) {
-            if (equipmentTable[j].name > equipmentTable[j + 1].name) {
+            if (equipmentTable[j].Name > equipmentTable[j + 1].Name) {
                 var temp = equipmentTable[j];
                 equipmentTable[j] = equipmentTable[j + 1];
                 equipmentTable[j + 1] = temp;
@@ -134,7 +133,7 @@ function sortTableByLocation() {
     // TODO: using bubble sort, could probably improve this
     for (i = 0; i < equipmentTable.length; i++) {
         for (j = 0; j < equipmentTable.length - i - 1; j++) {
-            if (equipmentTable[j].location > equipmentTable[j + 1].location) {
+            if (equipmentTable[j].Location > equipmentTable[j + 1].Location) {
                 var temp = equipmentTable[j];
                 equipmentTable[j] = equipmentTable[j + 1];
                 equipmentTable[j + 1] = temp;
