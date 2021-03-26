@@ -5,9 +5,34 @@ function getEquipmentTable() {
     }).then(data => {
         // Work with JSON data here
         equipmentTable = data;
+        console.log(data);
     }).catch(err => {
         // Do something for an error here
         console.log("an error ocurred in retrieving the equipment table from the database");
+    });
+}
+
+var body = {
+    "eqId": 17,
+    "name": "Jake",
+    "location": "location",
+    "quantity": 25
+}
+
+function postEquipment() {
+    fetch(equipmentApiUrl, {
+        method: 'POST',
+        headers: {
+            'content-type': 'text/plain',
+            //'content-type': 'application/json',
+            'origin': 'google.com'
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        console.log(response);
+        getEquipmentTable(); // refresh eq table after post is complete
+    }).catch(err => {
+        console.log(err);
     });
 }
 
@@ -23,10 +48,10 @@ function updateEquipmentList() {
 
     if (searchCriteria == "name") {
         equipmentTable.forEach(function(item) {
-            if (item.name.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+            if (item.Name.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
                 newEquipmentList = newEquipmentList.concat
-                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.name, "</p></a>"
-                    + "<p>&emsp;", item.location,"</p>");
+                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
+                    + "<p>&emsp;", item.Location,"</p>");
                 // TODO: make list be filtered by search string -> add code for if it didn't match any results
             }
             tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
@@ -34,10 +59,10 @@ function updateEquipmentList() {
     }
     else if (searchCriteria == "location") {
         equipmentTable.forEach(function(item) {
-            if (item.location.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+            if (item.Location.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
                 newEquipmentList = newEquipmentList.concat
-                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.name, "</p></a>"
-                    + "<p>&emsp;", item.location,"</p>");
+                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
+                    + "<p>&emsp;", item.Location,"</p>");
                 // TODO: make list be filtered by search string -> add code for if it didn't match any results
             }
             tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
@@ -51,10 +76,10 @@ function updateEquipmentList() {
 // called when specific equipment is clicked from list
 function displayEquipmentDetails(tableLocation) {
     var equipmentModal = document.getElementById("modal_body");
-    var newEquipmentData = "<p>Name: " + equipmentTable[tableLocation].name + "</p>";
-    newEquipmentData += "<p>Location: " + equipmentTable[tableLocation].location + "</p>";
-    newEquipmentData += "<p>Quantity: " + equipmentTable[tableLocation].quantity + "</p>";
-    newEquipmentData += "<p>ID: " + equipmentTable[tableLocation].eqId + "</p>";
+    var newEquipmentData = "<p>Name: " + equipmentTable[tableLocation].Name + "</p>";
+    newEquipmentData += "<p>Location: " + equipmentTable[tableLocation].Location + "</p>";
+    newEquipmentData += "<p>Quantity: " + equipmentTable[tableLocation].Quantity + "</p>";
+    newEquipmentData += "<p>ID: " + equipmentTable[tableLocation].Eq_ID + "</p>";
     equipmentModal.innerHTML = newEquipmentData;
 
     var modalFooter = document.getElementById("modal_footer");
@@ -121,6 +146,7 @@ function sortTableByLocation() {
 // called when add eq to db button is clicked
 function addEqToDatabase() {
     console.log("adding eq..");
+    postEquipment();
 }
 
 // called when remove eq from db button is clicked
@@ -130,15 +156,15 @@ function removeEqFromDatabase() {
 
 // called when check out button is clicked from modal of specific equipment
 function checkOutEquipment(tableLocation) {
-    console.log("checking out " + equipmentTable[tableLocation].name);
+    console.log("checking out " + equipmentTable[tableLocation].Name);
 }
 
 // called when check in button is clicked from modal of specific equipment
 function checkInEquipment(tableLocation) {
-    console.log("checking in " + equipmentTable[tableLocation].name);
+    console.log("checking in " + equipmentTable[tableLocation].Name);
 }
 
 // called when reserve button is clicked from modal of specific equipment
 function reserveEquipment(tableLocation) {
-    console.log("reserving " + equipmentTable[tableLocation].name);
+    console.log("reserving " + equipmentTable[tableLocation].Name);
 }
