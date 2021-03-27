@@ -25,8 +25,8 @@ function postEquipment() {
         },
         body: JSON.stringify(newEquipment)
     }).then(response => {
-        console.log(response);
         getEquipmentTable(); // refresh eq table after post is complete
+        document.getElementById("equipment_results").innerHTML = "Equipment added successfully";
     }).catch(err => {
         console.log(err);
     });
@@ -38,8 +38,22 @@ function deleteEquipment(eqId) {
     fetch(newUrl, {
         method: 'DELETE',
     }).then(response => {
-        console.log(response);
         getEquipmentTable(); // refresh eq table after delete is complete
+        document.getElementById("equipment_results").innerHTML = "Equipment removed successfully";
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
+function putEquipment(updatedEquipment) {
+    fetch(equipmentApiUrl, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: updatedEquipment
+    }).then(response => {
+        getEquipmentTable(); // refresh eq table after put is complete
     }).catch(err => {
         console.log(err);
     });
@@ -124,19 +138,19 @@ function displayEquipmentDetails(tableLocation) {
     modalTitle.innerHTML = newData;
 
     var equipmentModal = document.getElementById("modal_body");
-    var newData = "<p>Name: " + equipmentTable[tableLocation].Name + "</p>";
-    newData += "<p>Location: " + equipmentTable[tableLocation].Location + "</p>";
-    newData += "<p>Quantity: " + equipmentTable[tableLocation].Quantity + "</p>";
-    newData += "<p>ID: " + equipmentTable[tableLocation].Eq_ID + "</p>";
+    newData = "<p>ID: " + equipmentTable[tableLocation].Eq_ID + "</p>";
+    newData += "<p>Name: </p><input type=\"text\" id=\"updated_equipment_name\" size=\"30\" value=\"" + equipmentTable[tableLocation].Name + "\"><br><br>";
+    newData += "<p>Location: </p><input type=\"text\" id=\"updated_equipment_location\" size=\"30\" value=\"" + equipmentTable[tableLocation].Location + "\"><br><br>";
+    newData += "<p>Quantity: </p><input type=\"text\" id=\"updated_equipment_quantity\" size=\"30\" value=\"" + equipmentTable[tableLocation].Quantity + "\"><br><br>";
     equipmentModal.innerHTML = newData;
 
     var modalFooter = document.getElementById("modal_footer");
     newData = 
           "<button type=\"button\" class=\"btn btn-default\" onclick=\"deleteEquipment(" + equipmentTable[tableLocation].Eq_ID + ")\" data-dismiss=\"modal\">Remove From DB</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"updateEquipment(" + equipmentTable[tableLocation].Eq_ID + ")\" data-dismiss=\"modal\">Save Changes</button>"
         + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkOutEquipment(" + tableLocation + ")\">Check Out</button>"
         + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkInEquipment(" + tableLocation + ")\">Check In</button>"
-        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"reserveEquipment(" + tableLocation + ")\">Reserve</button>"
-        + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"reserveEquipment(" + tableLocation + ")\">Reserve</button>";
     modalFooter.innerHTML = newData;
 }
 
@@ -190,6 +204,18 @@ function sortTableByLocation() {
             }
         }
     }
+}
+
+// called when save changes button is clicked from modal of specific equipment
+function updateEquipment(EqID) {
+    var updatedEquipment = {
+        "eqId": EqID,
+        "name": document.getElementById("updated_equipment_name").value,
+        "location": document.getElementById("updated_equipment_location").value,
+        "quantity": parseInt(document.getElementById("updated_equipment_quantity").value)
+    }
+    putEquipment(JSON.stringify(updatedEquipment));
+    document.getElementById("equipment_results").innerHTML = "Equipment updated successfully";
 }
 
 // called when check out button is clicked from modal of specific equipment

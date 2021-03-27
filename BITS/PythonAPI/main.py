@@ -54,7 +54,7 @@ def deleteConcession(sku):
         cursor = conn.cursor()
         cursor.execute("DELETE FROM ConcessionsInventory WHERE SKU=%s", (sku))
         conn.commit()
-        res = jsonify('Equipment deleted successfully.')
+        res = jsonify('Concession deleted successfully.')
         res.status_code = 200
         return res
     except Exception as e:
@@ -103,8 +103,8 @@ def getEmployeeInfo():
 
 
 ################################################################################### Equipment
-# GET, POST
-@app.route('/equipment', methods=['GET', 'POST'])
+# GET, POST, PUT
+@app.route('/equipment', methods=['GET', 'POST', 'PUT'])
 def equipment():
     if request.method == 'GET':
         try:
@@ -142,6 +142,30 @@ def equipment():
         finally:
             cursor.close()
             conn.close()
+    if request.method == 'PUT':
+        try:
+            _json = request.json
+            _Eq_ID = _json['eqId']
+            _Name = _json['name']
+            _Location = _json['location']
+            _Quantity = _json['quantity']
+
+            sql = "UPDATE Equipment SET Name=%s, Location=%s, Quantity=%s WHERE Eq_ID=%s"
+            data = (_Name, _Location, _Quantity, _Eq_ID)
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql, data)
+            conn.commit()
+            res = jsonify('Equipment updated successfully.')
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
 # DELETE
 @app.route('/equipment/<int:eqId>', methods=['DELETE'])
 def deleteEquipment(eqId):
