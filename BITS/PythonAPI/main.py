@@ -4,26 +4,50 @@ from config import mysql
 from flask import jsonify
 from flask import flash, request
 
-########## Concessions
+################################################################################### Concessions
 # GET
 @app.route('/concessions', methods=['GET', 'POST'])
-def getConcessions():
-    try:
-        conn = mysql.connect()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT * FROM concessionsinventory")
-        rows = cursor.fetchall()
-        res = jsonify(rows)
-        res.status_code = 200
-        return res
-    except Exception as e:
-        print(e)
-    finally:
-        cursor.close() 
-        conn.close()
+def concessions():
+    if request.method == 'GET':
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("SELECT * FROM concessionsinventory")
+            rows = cursor.fetchall()
+            res = jsonify(rows)
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close() 
+            conn.close()
+    if request.method == 'POST':
+        try:
+            _json = request.json
+            _SKU = _json['sku']
+            _ItemName = _json['itemName']
+            _Cost = _json['cost']
+            _Quantity = _json['quantity']
+            _Location = _json['location']
+
+            sqlQuery = "INSERT INTO ConcessionsInventory (SKU, ItemName, Cost, Quantity, Location) VALUES(%s, %s, %s, %s, %s)"
+            data = (_SKU, _ItemName, _Cost, _Quantity, _Location)
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sqlQuery, data)
+            conn.commit()
+            res = jsonify('Concession created successfully.')
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
 
 
-########## Customer Info
+################################################################################### Customer Info
 # GET
 @app.route('/customerinfo', methods=['GET', 'POST'])
 def getCustomerInfo():
@@ -42,7 +66,7 @@ def getCustomerInfo():
         conn.close()
 
 
-########## Employee Info
+################################################################################### Employee Info
 # GET
 @app.route('/employeeinfo', methods=['GET', 'POST'])
 def getEmployeeInfo():
@@ -61,7 +85,7 @@ def getEmployeeInfo():
         conn.close()
 
 
-########## Equipment
+################################################################################### Equipment
 # GET, POST
 @app.route('/equipment', methods=['GET', 'POST'])
 def equipment():
@@ -93,7 +117,7 @@ def equipment():
             cursor = conn.cursor()
             cursor.execute(sqlQuery, data)
             conn.commit()
-            res = jsonify('Student created successfully.')
+            res = jsonify('Equipment created successfully.')
             res.status_code = 200
             return res
         except Exception as e:

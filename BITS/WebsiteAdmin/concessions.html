@@ -41,8 +41,8 @@
     }
   </style>
 </head>
-<body>
 
+<body onload = "getConcessionsTable()">
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -79,12 +79,12 @@
       <p>Enter SKU to check availability of stock.</p>
 	    <input type="text" id="search_sku" name="search_sku" size="40">
 	    <button type="button" id="search_button" onclick="displaySKU()">Search</button><br><br>
-      <button type="button" id="add_inventory_button" onclick="displaySKU()">Add new inventory item</button>
 	    <hr>
       <h2>Results</h2>
       <div id="concessions_results"></div> 
     </div>
     <div class="col-sm-2 sidenav">
+      <button type="button" data-toggle="modal" data-target="#concessions_modal" onclick="newConcessionsModal()">Add new inventory item</button>
     </div>
   </div>
 </div>
@@ -93,6 +93,22 @@
 <footer class="container-fluid text-center">
   <p>Brookings Indoor Training Site</p>
 </footer>
+
+<!-- Modal -->
+<div id="concessions_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header" id="modal_header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body" id="modal_body"></div>
+      <div class="modal-footer" id="modal_footer"></div>
+    </div>
+
+  </div>
+</div>
 
 <!-- Scripts -->
 <script src="js/defs.js"></script>

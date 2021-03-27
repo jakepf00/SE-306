@@ -3,11 +3,9 @@ function getEquipmentTable() {
     fetch(equipmentApiUrl).then(response => {
         return response.json();
     }).then(data => {
-        // Work with JSON data here
         equipmentTable = data;
     }).catch(err => {
-        // Do something for an error here
-        console.log("an error ocurred in retrieving the equipment table from the database");
+        console.log(err);
     });
 }
 
@@ -93,7 +91,7 @@ function updateEquipmentList() {
         equipmentTable.forEach(function(item) {
             if (item.Name.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
                 newEquipmentList = newEquipmentList.concat
-                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
+                    ("<p><a data-toggle=\"modal\" data-target=\"#equipment_modal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
                     + "<p>&emsp;", item.Location,"</p>");
                 // TODO: make list be filtered by search string -> add code for if it didn't match any results
             }
@@ -104,7 +102,7 @@ function updateEquipmentList() {
         equipmentTable.forEach(function(item) {
             if (item.Location.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
                 newEquipmentList = newEquipmentList.concat
-                    ("<p><a data-toggle=\"modal\" data-target=\"#equipmentModal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
+                    ("<p><a data-toggle=\"modal\" data-target=\"#equipment_modal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
                     + "<p>&emsp;", item.Location,"</p>");
                 // TODO: make list be filtered by search string -> add code for if it didn't match any results
             }
