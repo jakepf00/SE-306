@@ -1,6 +1,6 @@
 // called when page is loaded
 function getEquipmentTable() {    
-    fetch(getEquipmentApiUrl).then(response => {
+    fetch(equipmentApiUrl).then(response => {
         return response.json();
     }).then(data => {
         // Work with JSON data here
@@ -12,19 +12,17 @@ function getEquipmentTable() {
 }
 
 var body = {
-    "eqId": 17,
-    "name": "Jake",
-    "location": "location",
-    "quantity": 25
+    "eqId": 139,
+    "name": "hello",
+    "location": "again",
+    "quantity": 2
 }
 
 function postEquipment() {
     fetch(equipmentApiUrl, {
         method: 'POST',
         headers: {
-            'content-type': 'text/plain',
-            //'content-type': 'application/json',
-            'origin': 'google.com'
+            'content-type': 'application/json',
         },
         body: JSON.stringify(body)
     }).then(response => {
