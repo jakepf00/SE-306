@@ -11,26 +11,59 @@ function getEquipmentTable() {
     });
 }
 
-var body = {
-    "eqId": 139,
-    "name": "hello",
-    "location": "again",
-    "quantity": 2
-}
-
+// called when add button is clicked from post equipment modal
 function postEquipment() {
+    var newID = getMaxEquipmentID() + 1;
+    var newEquipment = {
+        "eqId": newID,
+        "name": document.getElementById("new_equipment_name").value,
+        "location": document.getElementById("new_equipment_location").value,
+        "quantity": parseInt(document.getElementById("new_equipment_quantity").value)
+    }
     fetch(equipmentApiUrl, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(newEquipment)
     }).then(response => {
         console.log(response);
         getEquipmentTable(); // refresh eq table after post is complete
     }).catch(err => {
         console.log(err);
     });
+}
+
+// called when add eq to database button is clicked
+function newEquipmentModal() {
+    var newData = "";
+
+    var modalTitle = document.getElementById("modal_header");
+    newData = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
+    newData += "<h4 class=\"modal-title\">Add New Equipment</h4>";
+    modalTitle.innerHTML = newData;
+
+    var modalBody = document.getElementById("modal_body");
+    newData = "<p>Name:</p><input type=\"text\" id=\"new_equipment_name\" size=\"40\"><br><br>";
+    newData += "<p>Location:</p><input type=\"text\" id=\"new_equipment_location\" size=\"40\"><br><br>";
+    newData += "<p>Quantity:</p><input type=\"text\" id=\"new_equipment_quantity\" size=\"40\"><br><br>";
+    modalBody.innerHTML = newData; // don't need to ask for ID, it will be automatically inferred
+
+    var modalFooter = document.getElementById("modal_footer");
+    newData = 
+          "<button type=\"button\" class=\"btn btn-default\" onclick=\"postEquipment()\" data-dismiss=\"modal\">Add</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>";
+    modalFooter.innerHTML = newData;
+}
+
+function getMaxEquipmentID() {
+    var max = 0;
+    for (i = 0; i < equipmentTable.length; i++) {
+        if (equipmentTable[i].Eq_ID > max) {
+            max = equipmentTable[i].Eq_ID;
+        }
+    }
+    return max;
 }
 
 var searchString = "";
@@ -72,20 +105,27 @@ function updateEquipmentList() {
 
 // called when specific equipment is clicked from list
 function displayEquipmentDetails(tableLocation) {
+    var newData = "";
+
+    var modalTitle = document.getElementById("modal_header");
+    newData = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
+    newData += "<h4 class=\"modal-title\">View Equipment Details</h4>";
+    modalTitle.innerHTML = newData;
+
     var equipmentModal = document.getElementById("modal_body");
-    var newEquipmentData = "<p>Name: " + equipmentTable[tableLocation].Name + "</p>";
-    newEquipmentData += "<p>Location: " + equipmentTable[tableLocation].Location + "</p>";
-    newEquipmentData += "<p>Quantity: " + equipmentTable[tableLocation].Quantity + "</p>";
-    newEquipmentData += "<p>ID: " + equipmentTable[tableLocation].Eq_ID + "</p>";
-    equipmentModal.innerHTML = newEquipmentData;
+    var newData = "<p>Name: " + equipmentTable[tableLocation].Name + "</p>";
+    newData += "<p>Location: " + equipmentTable[tableLocation].Location + "</p>";
+    newData += "<p>Quantity: " + equipmentTable[tableLocation].Quantity + "</p>";
+    newData += "<p>ID: " + equipmentTable[tableLocation].Eq_ID + "</p>";
+    equipmentModal.innerHTML = newData;
 
     var modalFooter = document.getElementById("modal_footer");
-    newEquipmentData = 
+    newData = 
           "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkOutEquipment(" + tableLocation + ")\">Check Out</button>"
         + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkInEquipment(" + tableLocation + ")\">Check In</button>"
         + "<button type=\"button\" class=\"btn btn-default\" onclick=\"reserveEquipment(" + tableLocation + ")\">Reserve</button>"
         + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
-    modalFooter.innerHTML = newEquipmentData;
+    modalFooter.innerHTML = newData;
 }
 
 // called when search by name button is clicked
@@ -138,12 +178,6 @@ function sortTableByLocation() {
             }
         }
     }
-}
-
-// called when add eq to db button is clicked
-function addEqToDatabase() {
-    console.log("adding eq..");
-    postEquipment();
 }
 
 // called when remove eq from db button is clicked
