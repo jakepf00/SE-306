@@ -53,7 +53,7 @@ function putEquipment(updatedEquipment) {
         },
         body: updatedEquipment
     }).then(response => {
-        getEquipmentTable(); // refresh eq table after put is complete
+        getEquipmentTable(); // refresh concessions table after put is complete
     }).catch(err => {
         console.log(err);
     });

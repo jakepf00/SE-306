@@ -48,6 +48,20 @@ function deleteConcessionsItem(SKU) {
     });
 }
 
+function putConcession(updatedConcession) {
+    fetch(concessionsApiUrl, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: updatedConcession
+    }).then(response => {
+        getConcessionsTable(); // refresh concession table after put is complete
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
 // called when add new inventory item button is clicked
 function newConcessionsModal() {
     var newData = "";
@@ -89,8 +103,20 @@ function displaySKU() {
 }
 
 // Called when update stock level button is clicked on a specific item
-function updateStockLevel(SKU) {
-    console.log("Updating stock level " + SKU);
+function updateItem(SKU) {
+    console.log("Updating item " + SKU);
+}
+
+function orderInventory(tableLocation) {
+    var updatedConcession = {
+        "sku": concessionsTable[tableLocation].SKU,
+        "itemName": concessionsTable[tableLocation].ItemName,
+        "cost": concessionsTable[tableLocation].Cost,
+        "quantity": concessionsTable[tableLocation].Quantity + parseInt(document.getElementById("ordered_amount").value),
+        "location": concessionsTable[tableLocation].Location,
+    }
+    putConcession(JSON.stringify(updatedConcession));
+    document.getElementById("concessions_results").innerHTML = "<p>Item ordered successfully</p>"
 }
 
 function findItemInSystem(SKU) {
@@ -103,8 +129,6 @@ function findItemInSystem(SKU) {
     return itemLocation;
 }
 
-// TODO: add info about concessions item
-// TODO: make 'delete item' button that calls removeItemFromInventory with the correct SKU
 function updateWebpage(tableLocation) {
     var concessionsResults = document.getElementById("concessions_results");
     var newConcessionsResults = "";
@@ -115,10 +139,29 @@ function updateWebpage(tableLocation) {
             + "<p>Cost: $" + concessionsTable[tableLocation].Cost.toFixed(2) + "</p>"
             + "<p>Quantity: " + concessionsTable[tableLocation].Quantity + "</p>"
             + "<p>Location: " + concessionsTable[tableLocation].Location + "</p>"
-            + "<button type=\"button\" id=\"update_inventory_button\" onclick=\"updateStockLevel(" + concessionsTable[tableLocation].SKU + ")\">Update stock level</button>"
-            + "<button type=\"button\" id=\"remove_inventory_button\" onclick=\"deleteConcessionsItem(" + concessionsTable[tableLocation].SKU + ")\">Remove item from inventory</button>";
+            + "<button type=\"button\" id=\"update_inventory_button\" onclick=\"updateItem(" + concessionsTable[tableLocation].SKU + ")\">Update item</button><br><br>"
+            + "<button type=\"button\" id=\"order_inventory_button\" onclick=\"placeOrderModal(" + tableLocation + ")\" data-toggle=\"modal\" data-target=\"#concessions_modal\">Place order</button><br><br>"
+            + "<button type=\"button\" id=\"remove_inventory_button\" onclick=\"deleteConcessionsItem(" + concessionsTable[tableLocation].SKU + ")\">Remove item from inventory</button><br><br>";
     }
     else newConcessionsResults = "No item matched the given SKU";
 
     concessionsResults.innerHTML = newConcessionsResults;
+}
+
+function placeOrderModal(tableLocation) {
+    // calls orderInventory(tableLocation)
+    var newData = "";
+
+    var modalTitle = document.getElementById("modal_header");
+    newData = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
+    newData += "<h4 class=\"modal-title\">Place Order</h4>";
+    modalTitle.innerHTML = newData;
+
+    var concessionsModal = document.getElementById("modal_body");
+    newData = "<p>Amount to order: </p><input type=\"text\" id=\"ordered_amount\" size=\"30\"><br><br>";
+    concessionsModal.innerHTML = newData;
+
+    var modalFooter = document.getElementById("modal_footer");
+    newData = "<button type=\"button\" class=\"btn btn-default\" onclick=\"orderInventory(" + tableLocation + ")\" data-dismiss=\"modal\">OK</button>"
+    modalFooter.innerHTML = newData;
 }

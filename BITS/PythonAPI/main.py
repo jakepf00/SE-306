@@ -5,8 +5,8 @@ from flask import jsonify
 from flask import flash, request
 
 ################################################################################### Concessions
-# GET
-@app.route('/concessions', methods=['GET', 'POST'])
+# GET, POST, PUT
+@app.route('/concessions', methods=['GET', 'POST', 'PUT'])
 def concessions():
     if request.method == 'GET':
         try:
@@ -38,6 +38,29 @@ def concessions():
             cursor.execute(sqlQuery, data)
             conn.commit()
             res = jsonify('Concession created successfully.')
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+    if request.method == 'PUT':
+        try:
+            _json = request.json
+            _SKU = _json['sku']
+            _ItemName = _json['itemName']
+            _Cost = _json['cost']
+            _Quantity = _json['quantity']
+            _Location = _json['location']
+
+            sql = "UPDATE ConcessionsInventory SET ItemName=%s, Cost=%s, Quantity=%s, Location=%s WHERE SKU=%s"
+            data = (_ItemName, _Cost, _Quantity, _Location, _SKU)
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql, data)
+            conn.commit()
+            res = jsonify('Concession updated successfully.')
             res.status_code = 200
             return res
         except Exception as e:
