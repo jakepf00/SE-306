@@ -148,9 +148,9 @@ function displayEquipmentDetails(tableLocation) {
     newData = 
           "<button type=\"button\" class=\"btn btn-default\" onclick=\"deleteEquipment(" + equipmentTable[tableLocation].Eq_ID + ")\" data-dismiss=\"modal\">Remove From DB</button>"
         + "<button type=\"button\" class=\"btn btn-default\" onclick=\"updateEquipment(" + equipmentTable[tableLocation].Eq_ID + ")\" data-dismiss=\"modal\">Save Changes</button>"
-        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkOutEquipment(" + tableLocation + ")\">Check Out</button>"
-        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkInEquipment(" + tableLocation + ")\">Check In</button>"
-        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"reserveEquipment(" + tableLocation + ")\">Reserve</button>";
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkOutEquipment(" + tableLocation + ")\" data-dismiss=\"modal\">Check Out</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkInEquipment(" + tableLocation + ")\" data-dismiss=\"modal\">Check In</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"reserveEquipment(" + tableLocation + ")\" data-dismiss=\"modal\">Reserve</button>";
     modalFooter.innerHTML = newData;
 }
 
@@ -220,15 +220,34 @@ function updateEquipment(EqID) {
 
 // called when check out button is clicked from modal of specific equipment
 function checkOutEquipment(tableLocation) {
-    console.log("checking out " + equipmentTable[tableLocation].Name);
+    if (equipmentTable[tableLocation].Quantity > 0) {
+        var updatedEquipment = {
+            "eqId": equipmentTable[tableLocation].Eq_ID,
+            "name": equipmentTable[tableLocation].Name,
+            "location": equipmentTable[tableLocation].Location,
+            "quantity": equipmentTable[tableLocation].Quantity - 1
+        }
+        putEquipment(JSON.stringify(updatedEquipment));
+        document.getElementById("equipment_results").innerHTML = "Equipment checked out successfully";
+    }
+    else {
+        document.getElementById("equipment_results").innerHTML = "No " + equipmentTable[tableLocation].Name + " left to check out";
+    }
 }
 
 // called when check in button is clicked from modal of specific equipment
 function checkInEquipment(tableLocation) {
-    console.log("checking in " + equipmentTable[tableLocation].Name);
+    var updatedEquipment = {
+        "eqId": equipmentTable[tableLocation].Eq_ID,
+        "name": equipmentTable[tableLocation].Name,
+        "location": equipmentTable[tableLocation].Location,
+        "quantity": equipmentTable[tableLocation].Quantity + 1
+    }
+    putEquipment(JSON.stringify(updatedEquipment));
+    document.getElementById("equipment_results").innerHTML = "Equipment checked in successfully";
 }
 
 // called when reserve button is clicked from modal of specific equipment
 function reserveEquipment(tableLocation) {
-    console.log("reserving " + equipmentTable[tableLocation].Name);
+    console.log("Reserving " + equipmentTable[tableLocation].Name);
 }
