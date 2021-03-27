@@ -46,6 +46,23 @@ def concessions():
             cursor.close()
             conn.close()
 
+# DELETE
+@app.route('/concessions/<int:sku>', methods=['DELETE'])
+def deleteConcession(sku):
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM ConcessionsInventory WHERE SKU=%s", (sku))
+        conn.commit()
+        res = jsonify('Equipment deleted successfully.')
+        res.status_code = 200
+        return res
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close() 
+        conn.close()
+
 
 ################################################################################### Customer Info
 # GET

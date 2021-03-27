@@ -34,6 +34,20 @@ function postConcession() {
     });
 }
 
+// Called when delete button is clicked on a specific item
+function deleteConcessionsItem(SKU) {
+    var newUrl = concessionsApiUrl + "/" + SKU;
+    fetch(newUrl, {
+        method: 'DELETE',
+    }).then(response => {
+        console.log(response);
+        getConcessionsTable(); // refresh concessions table after delete is complete
+        document.getElementById("concessions_results").innerHTML = "Item was successfully removed from database"
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
 // called when add new inventory item button is clicked
 function newConcessionsModal() {
     var newData = "";
@@ -74,20 +88,9 @@ function displaySKU() {
     updateWebpage(tableLocation);
 }
 
-// Called when delete button is clicked on a specific item
-function removeItemFromInventory(SKU) {
-    if (location == -1) {
-        console.log("The item could not be deleted from the system")
-    }
-    else {
-        console.log("Deleting " + SKU);
-        removeItemFromSystem(SKU);
-    }
-}
-
 // Called when update stock level button is clicked on a specific item
-function updateStockLevel(location) {
-    console.log("Updating stock level " + location);
+function updateStockLevel(SKU) {
+    console.log("Updating stock level " + SKU);
 }
 
 function findItemInSystem(SKU) {
@@ -98,11 +101,6 @@ function findItemInSystem(SKU) {
         }
     }
     return itemLocation;
-}
-
-function removeItemFromSystem(tableLocation) {
-    // use given tableLocation to remove item from database
-    // delete concessionsTabe[tableLocation]
 }
 
 // TODO: add info about concessions item
@@ -117,8 +115,8 @@ function updateWebpage(tableLocation) {
             + "<p>Cost: $" + concessionsTable[tableLocation].Cost.toFixed(2) + "</p>"
             + "<p>Quantity: " + concessionsTable[tableLocation].Quantity + "</p>"
             + "<p>Location: " + concessionsTable[tableLocation].Location + "</p>"
-            + "<button type=\"button\" id=\"update_inventory_button\" onclick=\"updateStockLevel(" + tableLocation + ")\">Update stock level</button>"
-            + "<button type=\"button\" id=\"remove_inventory_button\" onclick=\"removeItemFromInventory(" + concessionsTable[tableLocation].SKU + ")\">Remove item from inventory</button>";
+            + "<button type=\"button\" id=\"update_inventory_button\" onclick=\"updateStockLevel(" + concessionsTable[tableLocation].SKU + ")\">Update stock level</button>"
+            + "<button type=\"button\" id=\"remove_inventory_button\" onclick=\"deleteConcessionsItem(" + concessionsTable[tableLocation].SKU + ")\">Remove item from inventory</button>";
     }
     else newConcessionsResults = "No item matched the given SKU";
 
