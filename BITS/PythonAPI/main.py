@@ -95,13 +95,28 @@ def equipment():
             conn.commit()
             res = jsonify('Student created successfully.')
             res.status_code = 200
- 
             return res
         except Exception as e:
             print(e)
         finally:
             cursor.close()
             conn.close()
+# DELETE
+@app.route('/equipment/<int:eqId>', methods=['DELETE'])
+def deleteEquipment(eqId):
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Equipment WHERE Eq_ID=%s", (eqId))
+        conn.commit()
+        res = jsonify('Equipment deleted successfully.')
+        res.status_code = 200
+        return res
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close() 
+        conn.close()
 
 
 @app.errorhandler(404)

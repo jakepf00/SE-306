@@ -34,6 +34,19 @@ function postEquipment() {
     });
 }
 
+// called when remove eq from db button is clicked from modal of specific equipment
+function deleteEquipment(eqId) {
+    var newUrl = equipmentApiUrl + "/" + eqId;
+    fetch(newUrl, {
+        method: 'DELETE',
+    }).then(response => {
+        console.log(response);
+        getEquipmentTable(); // refresh eq table after delete is complete
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
 // called when add eq to database button is clicked
 function newEquipmentModal() {
     var newData = "";
@@ -121,7 +134,8 @@ function displayEquipmentDetails(tableLocation) {
 
     var modalFooter = document.getElementById("modal_footer");
     newData = 
-          "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkOutEquipment(" + tableLocation + ")\">Check Out</button>"
+          "<button type=\"button\" class=\"btn btn-default\" onclick=\"deleteEquipment(" + equipmentTable[tableLocation].Eq_ID + ")\" data-dismiss=\"modal\">Remove From DB</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkOutEquipment(" + tableLocation + ")\">Check Out</button>"
         + "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkInEquipment(" + tableLocation + ")\">Check In</button>"
         + "<button type=\"button\" class=\"btn btn-default\" onclick=\"reserveEquipment(" + tableLocation + ")\">Reserve</button>"
         + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
@@ -178,11 +192,6 @@ function sortTableByLocation() {
             }
         }
     }
-}
-
-// called when remove eq from db button is clicked
-function removeEqFromDatabase() {
-    console.log("removing eq..");
 }
 
 // called when check out button is clicked from modal of specific equipment
