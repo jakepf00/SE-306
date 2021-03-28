@@ -12,7 +12,6 @@ function getConcessionsTable() {
 // called when add button is clicked from post concession modal
 function postConcession() {
     var newSKU = getMaxSKU() + 1;
-    console.log(newSKU);
     var newConcession = {
         "sku": newSKU,
         "itemName": document.getElementById("new_item_name").value,
@@ -27,7 +26,6 @@ function postConcession() {
         },
         body: JSON.stringify(newConcession)
     }).then(response => {
-        console.log(response);
         getConcessionsTable(); // refresh concessions table after post is complete
     }).catch(err => {
         console.log(err);
@@ -40,7 +38,6 @@ function deleteConcessionsItem(SKU) {
     fetch(newUrl, {
         method: 'DELETE',
     }).then(response => {
-        console.log(response);
         getConcessionsTable(); // refresh concessions table after delete is complete
         document.getElementById("concessions_results").innerHTML = "Item was successfully removed from database"
     }).catch(err => {
@@ -119,6 +116,18 @@ function orderInventory(tableLocation) {
     document.getElementById("concessions_results").innerHTML = "<p>Item ordered successfully</p>"
 }
 
+function updateItem(tableLocation) {
+    var updatedConcession = {
+        "sku": concessionsTable[tableLocation].SKU,
+        "itemName": document.getElementById("updated_item_name").value,
+        "cost": parseInt(document.getElementById("updated_item_cost").value),
+        "quantity": parseInt(document.getElementById("updated_item_quantity").value),
+        "location": document.getElementById("updated_item_location").value,
+    }
+    putConcession(JSON.stringify(updatedConcession));
+    document.getElementById("concessions_results").innerHTML = "<p>Item updated successfully</p>"
+}
+
 function findItemInSystem(SKU) {
     var itemLocation = -1;
     for(tableLocation = 0; tableLocation < concessionsTable.length; tableLocation++) {
@@ -139,7 +148,7 @@ function updateWebpage(tableLocation) {
             + "<p>Cost: $" + concessionsTable[tableLocation].Cost.toFixed(2) + "</p>"
             + "<p>Quantity: " + concessionsTable[tableLocation].Quantity + "</p>"
             + "<p>Location: " + concessionsTable[tableLocation].Location + "</p>"
-            + "<button type=\"button\" id=\"update_inventory_button\" onclick=\"updateItem(" + concessionsTable[tableLocation].SKU + ")\">Update item</button><br><br>"
+            + "<button type=\"button\" id=\"update_inventory_button\" onclick=\"updateItemModal(" + tableLocation + ")\" data-toggle=\"modal\" data-target=\"#concessions_modal\">Update item</button><br><br>"
             + "<button type=\"button\" id=\"order_inventory_button\" onclick=\"placeOrderModal(" + tableLocation + ")\" data-toggle=\"modal\" data-target=\"#concessions_modal\">Place order</button><br><br>"
             + "<button type=\"button\" id=\"remove_inventory_button\" onclick=\"deleteConcessionsItem(" + concessionsTable[tableLocation].SKU + ")\">Remove item from inventory</button><br><br>";
     }
@@ -163,5 +172,25 @@ function placeOrderModal(tableLocation) {
 
     var modalFooter = document.getElementById("modal_footer");
     newData = "<button type=\"button\" class=\"btn btn-default\" onclick=\"orderInventory(" + tableLocation + ")\" data-dismiss=\"modal\">OK</button>"
+    modalFooter.innerHTML = newData;
+}
+
+function updateItemModal(tableLocation) {
+    var newData = "";
+
+    var modalTitle = document.getElementById("modal_header");
+    newData = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
+    newData += "<h4 class=\"modal-title\">Update Item</h4>";
+    modalTitle.innerHTML = newData;
+
+    var concessionsModal = document.getElementById("modal_body");
+    newData = "<p>Name: </p><input type=\"text\" id=\"updated_item_name\" size=\"30\" value=\"" + concessionsTable[tableLocation].ItemName + "\"><br><br>";
+    newData += "<p>Cost: </p><input type=\"text\" id=\"updated_item_cost\" size=\"30\" value=\"" + concessionsTable[tableLocation].Cost + "\"><br><br>";
+    newData += "<p>Quantity: </p><input type=\"text\" id=\"updated_item_quantity\" size=\"30\" value=\"" + concessionsTable[tableLocation].Quantity + "\"><br><br>";
+    newData += "<p>Location: </p><input type=\"text\" id=\"updated_item_location\" size=\"30\" value=\"" + concessionsTable[tableLocation].Location + "\"><br><br>";
+    concessionsModal.innerHTML = newData;
+
+    var modalFooter = document.getElementById("modal_footer");
+    newData = "<button type=\"button\" class=\"btn btn-default\" onclick=\"updateItem(" + tableLocation + ")\" data-dismiss=\"modal\">OK</button>"
     modalFooter.innerHTML = newData;
 }
