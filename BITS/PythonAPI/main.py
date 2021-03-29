@@ -206,7 +206,93 @@ def deleteEquipment(eqId):
         cursor.close() 
         conn.close()
 
+################################################################################### Equipment
+# GET, POST, PUT
+@app.route('/reservations', methods=['GET', 'POST', 'PUT'])
+def reservations():
+    if request.method == 'GET':
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("SELECT * FROM reservations")
+            rows = cursor.fetchall()
+            res = jsonify(rows)
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close() 
+            conn.close()
+    if request.method == 'POST':
+        try:
+            _json = request.json
+            _ID = _json['ID']
+            _Name = _json['name']
+            _Location = _json['location']
+            _EventType = _json['eventType']
+            _DateTime = _json['dateTime']
+            _Equipment = _json['equipment']
 
+            sqlQuery = "INSERT INTO Reservations (ID, Name, Location, EventType, DateTime, Equipment) VALUES(%s, %s, %s, %s, %s, %s)"
+            data = (_ID, _Name, _Location, _EventType, _DateTime, _Equipment)
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sqlQuery, data)
+            conn.commit()
+            res = jsonify('Reservation created successfully.')
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+    if request.method == 'PUT':
+        try:
+            _json = request.json
+            _ID = _json['ID']
+            _Name = _json['name']
+            _Location = _json['location']
+            _EventType = _json['eventType']
+            _DateTime = _json['dateTime']
+            _Equipment = _json['equipment']
+
+            sql = "UPDATE Reservations SET Name=%s, Location=%s, EventType=%s, DateTime=%s, Equipment=%s WHERE ID=%s"
+            data = (_Name, _Location, _EventType, _DateTime, _Equipment, _ID)
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql, data)
+            conn.commit()
+            res = jsonify('Equipment updated successfully.')
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+
+# DELETE
+@app.route('/reservations/<int:ID>', methods=['DELETE'])
+def deleteReservation(ID):
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Equipment WHERE ID=%s", (ID))
+        conn.commit()
+        res = jsonify('Reservation deleted successfully.')
+        res.status_code = 200
+        return res
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close() 
+        conn.close()
+
+
+################################################################################### Other stuff
 @app.errorhandler(404)
 def not_found(error=None):
     message = {
