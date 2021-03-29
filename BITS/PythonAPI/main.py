@@ -280,7 +280,7 @@ def deleteReservation(ID):
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Equipment WHERE ID=%s", (ID))
+        cursor.execute("DELETE FROM Reservations WHERE ID=%s", (ID))
         conn.commit()
         res = jsonify('Reservation deleted successfully.')
         res.status_code = 200

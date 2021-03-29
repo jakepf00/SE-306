@@ -24,22 +24,17 @@ function postReservation(newReservation) {
     });
 }
 
-function listTournaments() {
-    var newData = "";
-
-    reservationsTable.forEach(function(item) {
-        if (item.EventType == 1) {
-            newData = newData.concat
-                ("<p>Name: ", item.Name, "</p>"
-                + "<p>Location: ", item.Location, "</p>"
-                + "<p>Event Type: ", item.EventType,"</p>"
-                + "<p>Date/Time: ", item.DateTime,"</p>"
-                + "<p>Equipment: ", item.Equipment,"</p>"
-                + "<hr>");
-        }
+// called when delete button is clicked on an equipment
+function deleteReservation(ID) {
+    var newUrl = reservationsApiUrl + "/" + ID;
+    fetch(newUrl, {
+        method: 'DELETE',
+    }).then(response => {
+        getReservationsTable(); // refresh reservations table after delete is complete
+        document.getElementById("reservation_results").innerHTML = "<p>Reservation cancelled successfully</p>";
+    }).catch(err => {
+        console.log(err);
     });
-
-    document.getElementById("reservation_results").innerHTML = newData;
 }
 
 function listTournaments() {
@@ -50,12 +45,17 @@ function listTournaments() {
             newData = newData.concat
                 ("<p>Name: ", item.Name, "</p>"
                 + "<p>Location: ", item.Location, "</p>"
-                + "<p>Event Type: ", item.EventType,"</p>"
+                + "<p>Event Type: Tournament</p>"
                 + "<p>Date/Time: ", item.DateTime,"</p>"
                 + "<p>Equipment: ", item.Equipment,"</p>"
+                + "<button type=\"button\" onClick=\"deleteReservation(", item.ID,")\">Cancel Reservation</button>"
                 + "<hr>");
         }
     });
+
+    if (newData == "") {
+        newData += "No tournaments available";
+    }
 
     document.getElementById("reservation_results").innerHTML = newData;
 }
@@ -67,12 +67,17 @@ function listReservations() {
             newData = newData.concat
                 ("<p>Name: ", item.Name, "</p>"
                 + "<p>Location: ", item.Location, "</p>"
-                + "<p>Event Type: ", item.EventType,"</p>"
+                + "<p>Event Type: Personal Reservation</p>"
                 + "<p>Date/Time: ", item.DateTime,"</p>"
                 + "<p>Equipment: ", item.Equipment,"</p>"
+                + "<button type=\"button\" onClick=\"deleteReservation(", item.ID,")\">Cancel Reservation</button>"
                 + "<hr>");
         }
     });
+
+    if (newData == "") {
+        newData += "No reservations available";
+    }
 
     document.getElementById("reservation_results").innerHTML = newData;
 }
@@ -84,12 +89,17 @@ function listOther() {
             newData = newData.concat
                 ("<p>Name: ", item.Name, "</p>"
                 + "<p>Location: ", item.Location, "</p>"
-                + "<p>Event Type: ", item.EventType,"</p>"
+                + "<p>Event Type: Other Reservation</p>"
                 + "<p>Date/Time: ", item.DateTime,"</p>"
                 + "<p>Equipment: ", item.Equipment,"</p>"
+                + "<button type=\"button\" onClick=\"deleteReservation(", item.ID,")\">Cancel Reservation</button>"
                 + "<hr>");
         }
     });
+
+    if (newData == "") {
+        newData += "No other events available";
+    }
 
     document.getElementById("reservation_results").innerHTML = newData;
 }
