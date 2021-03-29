@@ -57,3 +57,15 @@ CREATE TABLE EmployeeInfo (
 	State 		varchar(2),
 	PRIMARY KEY (Employee_ID)
 	);
+
+CREATE TABLE Reservations (
+	ID			int,
+	Name		varchar(255),
+	Location	varchar(255),
+    EventType	int not null default 1,
+    DateTime	varchar(255),
+    Equipment	int,
+    foreign key (Equipment) REFERENCES Equipment (Eq_ID),
+    foreign key (eventType) REFERENCES Event_Type (id),
+	PRIMARY KEY (ID)
+	);
