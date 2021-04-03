@@ -150,3 +150,37 @@ function getMaxReservationID() {
     }
     return max;
 }
+
+function checkAvailabilityModal() {
+    var newData = "";
+
+    var modalTitle = document.getElementById("modal_header");
+    newData = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
+    newData += "<h4 class=\"modal-title\">Check Space Availability</h4>";
+    modalTitle.innerHTML = newData;
+
+    var modalBody = document.getElementById("modal_body");
+    newData = "<p>Enter space to check</p><input type=\"text\" id=\"space_to_check\" size=\"40\"><br><br>";
+    modalBody.innerHTML = newData;
+
+    var modalFooter = document.getElementById("modal_footer");
+    newData = 
+          "<button type=\"button\" class=\"btn btn-default\" onclick=\"checkAvailability()\" data-dismiss=\"modal\">Check</button>"
+        + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>";
+    modalFooter.innerHTML = newData;
+}
+
+function checkAvailability() {
+    var space = document.getElementById("space_to_check").value;
+    var newData = ""
+    for (i = 0; i < reservationsTable.length; i++) {
+        if (reservationsTable[i].Location == space) {
+            newData += "<p>" + reservationsTable[i].Name + " at " + reservationsTable[i].DateTime + "</p>";
+        }
+    }
+    if (newData == "") {
+        newData = "<p>Space not in use</p>";
+    }
+    else newData = "<p>Space in use by</p>" + newData;
+    document.getElementById("reservation_results").innerHTML = newData;
+}
