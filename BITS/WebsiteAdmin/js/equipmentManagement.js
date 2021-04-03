@@ -123,6 +123,13 @@ function updateEquipmentList() {
             tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
         });
     }
+    if (newEquipmentList != "") {
+        newEquipmentList = "<button type=\"button\" onclick=\"sortByName()\">Sort Results by Name</button>" 
+                           + "<button type=\"button\" onclick=\"sortByLocation()\">Sort Results by Location</button><br><br>" + newEquipmentList;
+    }
+    else {
+        newEquipmentList = "<p>No equipment found</p>";
+    }
     
     equipmentResults.innerHTML = newEquipmentList;
 }
