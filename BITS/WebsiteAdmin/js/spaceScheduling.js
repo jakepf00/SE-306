@@ -71,6 +71,10 @@ function listTournaments() {
     if (newData == "") {
         newData += "No tournaments available";
     }
+    else newData = "Sort by: "
+        + "<button type=\"button\" onClick=\"sortByName(1)\">Name</button>"
+        + "<button type=\"button\" onClick=\"sortByEquipment(1)\">Equipment</button>"
+        + "<button type=\"button\" onClick=\"sortByDateTime(1)\">Date and Time</button><br><br>" + newData;
 
     document.getElementById("reservation_results").innerHTML = newData;
 }
@@ -94,6 +98,10 @@ function listReservations() {
     if (newData == "") {
         newData += "No reservations available";
     }
+else newData = "Sort by: "
+        + "<button type=\"button\" onClick=\"sortByName(2)\">Name</button>"
+        + "<button type=\"button\" onClick=\"sortByEquipment(2)\">Equipment</button>"
+        + "<button type=\"button\" onClick=\"sortByDateTime(2)\">Date and Time</button><br><br>" + newData;
 
     document.getElementById("reservation_results").innerHTML = newData;
 }
@@ -117,6 +125,10 @@ function listOther() {
     if (newData == "") {
         newData += "No other events available";
     }
+    else newData = "Sort by: "
+        + "<button type=\"button\" onClick=\"sortByName(3)\">Name</button>"
+        + "<button type=\"button\" onClick=\"sortByEquipment(3)\">Equipment</button>"
+        + "<button type=\"button\" onClick=\"sortByDateTime(3)\">Date and Time</button><br><br>" + newData;
 
     document.getElementById("reservation_results").innerHTML = newData;
 }
@@ -236,4 +248,53 @@ function checkAvailability() {
     }
     else newData = "<p>Space in use by</p>" + newData;
     document.getElementById("reservation_results").innerHTML = newData;
+}
+
+function sortByName(eventType) {
+    for (i = 0; i < reservationsTable.length; i++) {
+        for (j = 0; j < reservationsTable.length - i - 1; j++) {
+            if (reservationsTable[j].Name > reservationsTable[j + 1].Name) {
+                var temp = reservationsTable[j];
+                reservationsTable[j] = reservationsTable[j + 1];
+                reservationsTable[j + 1] = temp;
+            }
+        }
+    }
+    switch (eventType) {
+        case 1: listTournaments(); break;
+        case 2: listReservations(); break;
+        case 3: listOther(); break;
+    }
+}
+function sortByEquipment(eventType) {
+    for (i = 0; i < reservationsTable.length; i++) {
+        for (j = 0; j < reservationsTable.length - i - 1; j++) {
+            if (reservationsTable[j].Equipment > reservationsTable[j + 1].Equipment) {
+                var temp = reservationsTable[j];
+                reservationsTable[j] = reservationsTable[j + 1];
+                reservationsTable[j + 1] = temp;
+            }
+        }
+    }
+    switch (eventType) {
+        case 1: listTournaments(); break;
+        case 2: listReservations(); break;
+        case 3: listOther(); break;
+    }
+}
+function sortByDateTime(eventType) {
+    for (i = 0; i < reservationsTable.length; i++) {
+        for (j = 0; j < reservationsTable.length - i - 1; j++) {
+            if (reservationsTable[j].DateTime > reservationsTable[j + 1].DateTime) {
+                var temp = reservationsTable[j];
+                reservationsTable[j] = reservationsTable[j + 1];
+                reservationsTable[j + 1] = temp;
+            }
+        }
+    }
+    switch (eventType) {
+        case 1: listTournaments(); break;
+        case 2: listReservations(); break;
+        case 3: listOther(); break;
+    }
 }
