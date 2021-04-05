@@ -1,5 +1,3 @@
-
-
 function listTournaments() {
     var newData = "";
 
@@ -105,7 +103,6 @@ function newReservationModal() {
         + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>";
     modalFooter.innerHTML = newData;
 }
-
 function submitNewReservation() {
     var newID = getMaxReservationID() + 1;
     var newReservation = {
@@ -117,6 +114,15 @@ function submitNewReservation() {
         "equipment": parseInt(document.getElementById("new_reservation_equipment").value),
     }
     postReservation(JSON.stringify(newReservation));
+}
+function getMaxReservationID() {
+    var max = 0;
+    for (i = 0; i < reservationsTable.length; i++) {
+        if (reservationsTable[i].ID > max) {
+            max = reservationsTable[i].ID;
+        }
+    }
+    return max;
 }
 
 function editReservationModal(tableLocation) {
@@ -153,16 +159,6 @@ function editReservation(tableLocation) {
     }
     putReservation(JSON.stringify(editReservation));
     document.getElementById("reservation_results").innerHTML = "Reservation updated successfully";
-}
-
-function getMaxReservationID() {
-    var max = 0;
-    for (i = 0; i < reservationsTable.length; i++) {
-        if (reservationsTable[i].ID > max) {
-            max = reservationsTable[i].ID;
-        }
-    }
-    return max;
 }
 
 function checkAvailabilityModal() {

@@ -15,11 +15,20 @@ function newEquipmentModal() {
 
     var modalFooter = document.getElementById("modal_footer");
     newData = 
-          "<button type=\"button\" class=\"btn btn-default\" onclick=\"postEquipment()\" data-dismiss=\"modal\">Add</button>"
+          "<button type=\"button\" class=\"btn btn-default\" onclick=\"submitNewEquipment()\" data-dismiss=\"modal\">Add</button>"
         + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>";
     modalFooter.innerHTML = newData;
 }
-
+function submitNewEquipment() {
+    var newID = getMaxEquipmentID() + 1;
+    var newEquipment = {
+        "eqId": newID,
+        "name": document.getElementById("new_equipment_name").value,
+        "location": document.getElementById("new_equipment_location").value,
+        "quantity": parseInt(document.getElementById("new_equipment_quantity").value)
+    }
+    postEquipment(JSON.stringify(newEquipment));
+}
 function getMaxEquipmentID() {
     var max = 0;
     for (i = 0; i < equipmentTable.length; i++) {

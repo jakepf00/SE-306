@@ -72,24 +72,16 @@ function getConcessionsTable() {
     });
 }
 
-function postConcession() {
-    var newSKU = getMaxSKU() + 1;
-    var newConcession = {
-        "sku": newSKU,
-        "itemName": document.getElementById("new_item_name").value,
-        "cost": parseFloat(document.getElementById("new_item_cost").value),
-        "quantity": parseInt(document.getElementById("new_item_quantity").value),
-        "location": document.getElementById("new_item_location").value,
-    }
+function postConcession(newConcession) {
     fetch(concessionsApiUrl, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify(newConcession)
+        body: newConcession
     }).then(response => {
         getConcessionsTable(); // refresh concessions table after post is complete
-        document.getElementById("concessions_results").innerHTML = "<p>Item created successfully with SKU of " + newSKU + "</p>";
+        document.getElementById("concessions_results").innerHTML = "<p>Item created successfully</p>";
     }).catch(err => {
         console.log(err);
     });
@@ -132,20 +124,13 @@ function getEquipmentTable() {
     });
 }
 
-function postEquipment() {
-    var newID = getMaxEquipmentID() + 1;
-    var newEquipment = {
-        "eqId": newID,
-        "name": document.getElementById("new_equipment_name").value,
-        "location": document.getElementById("new_equipment_location").value,
-        "quantity": parseInt(document.getElementById("new_equipment_quantity").value)
-    }
+function postEquipment(newEquipment) {
     fetch(equipmentApiUrl, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify(newEquipment)
+        body: newEquipment
     }).then(response => {
         getEquipmentTable(); // refresh eq table after post is complete
         document.getElementById("equipment_results").innerHTML = "Equipment added successfully";

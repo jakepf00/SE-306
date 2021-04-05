@@ -1,5 +1,3 @@
-
-
 // called when add new inventory item button is clicked
 function newConcessionsModal() {
     var newData = "";
@@ -18,11 +16,21 @@ function newConcessionsModal() {
 
     var modalFooter = document.getElementById("modal_footer");
     newData = 
-          "<button type=\"button\" class=\"btn btn-default\" onclick=\"postConcession()\" data-dismiss=\"modal\">Add</button>"
+          "<button type=\"button\" class=\"btn btn-default\" onclick=\"submitNewConcession()\" data-dismiss=\"modal\">Add</button>"
         + "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>";
     modalFooter.innerHTML = newData;
 }
-
+function submitNewConcession() {
+    var newSKU = getMaxSKU() + 1;
+    var newConcession = {
+        "sku": newSKU,
+        "itemName": document.getElementById("new_item_name").value,
+        "cost": parseFloat(document.getElementById("new_item_cost").value),
+        "quantity": parseInt(document.getElementById("new_item_quantity").value),
+        "location": document.getElementById("new_item_location").value,
+    }
+    postConcession(JSON.stringify(newConcession));
+}
 function getMaxSKU() {
     var max = 0;
     for (i = 0; i < concessionsTable.length; i++) {
