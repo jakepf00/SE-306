@@ -69,3 +69,12 @@ CREATE TABLE Reservations (
     foreign key (eventType) REFERENCES Event_Type (id),
 	PRIMARY KEY (ID)
 	);
+
+CREATE TABLE Transactions (
+	Transaction_ID	int,
+	Customer_ID		int,
+    CardNumber		int,
+    PaymentAmount	float,
+    constraint fk_customer_id foreign key (Customer_ID) REFERENCES CustomerInfo (Customer_ID),
+    PRIMARY KEY (Transaction_ID)
+	);

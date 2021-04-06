@@ -3,10 +3,12 @@ var customerInfoApiUrl = 'http://127.0.0.1:5000/customerinfo';
 var employeeInfoApiUrl = 'http://127.0.0.1:5000/employeeinfo';
 var equipmentApiUrl = 'http://127.0.0.1:5000/equipment';
 var reservationsApiUrl = 'http://127.0.0.1:5000/reservations';
+var transactionsApiUrl = 'http://127.0.0.1:5000/transactions';
 
 var equipmentTable;
 var concessionsTable;
 var reservationsTable;
+var transactionTable;
 
 // API access functions
 //////////////////////////////////////////////////////// Reservations
@@ -28,7 +30,7 @@ function postReservation(newReservation) {
         },
         body: newReservation
     }).then(response => {
-        getReservationsTable(); // refresh reservations table after post is complete
+        getReservationsTable();
         document.getElementById("reservation_results").innerHTML = "<p>Reservation made successfully</p>";
     }).catch(err => {
         console.log(err);
@@ -40,7 +42,7 @@ function deleteReservation(ID) {
     fetch(newUrl, {
         method: 'DELETE',
     }).then(response => {
-        getReservationsTable(); // refresh reservations table after delete is complete
+        getReservationsTable();
         document.getElementById("reservation_results").innerHTML = "<p>Reservation cancelled successfully</p>";
     }).catch(err => {
         console.log(err);
@@ -55,7 +57,7 @@ function putReservation(updatedReservation) {
         },
         body: updatedReservation
     }).then(response => {
-        getReservationsTable(); // refresh reservations table after put is complete
+        getReservationsTable();
     }).catch(err => {
         console.log(err);
     });
@@ -80,7 +82,7 @@ function postConcession(newConcession) {
         },
         body: newConcession
     }).then(response => {
-        getConcessionsTable(); // refresh concessions table after post is complete
+        getConcessionsTable();
         document.getElementById("concessions_results").innerHTML = "<p>Item created successfully</p>";
     }).catch(err => {
         console.log(err);
@@ -92,7 +94,7 @@ function deleteConcessionsItem(SKU) {
     fetch(newUrl, {
         method: 'DELETE',
     }).then(response => {
-        getConcessionsTable(); // refresh concessions table after delete is complete
+        getConcessionsTable();
         document.getElementById("concessions_results").innerHTML = "Item was successfully removed from database"
     }).catch(err => {
         console.log(err);
@@ -107,7 +109,7 @@ function putConcession(updatedConcession) {
         },
         body: updatedConcession
     }).then(response => {
-        getConcessionsTable(); // refresh concession table after put is complete
+        getConcessionsTable();
     }).catch(err => {
         console.log(err);
     });
@@ -132,7 +134,7 @@ function postEquipment(newEquipment) {
         },
         body: newEquipment
     }).then(response => {
-        getEquipmentTable(); // refresh eq table after post is complete
+        getEquipmentTable();
         document.getElementById("equipment_results").innerHTML = "Equipment added successfully";
     }).catch(err => {
         console.log(err);
@@ -144,7 +146,7 @@ function deleteEquipment(eqId) {
     fetch(newUrl, {
         method: 'DELETE',
     }).then(response => {
-        getEquipmentTable(); // refresh eq table after delete is complete
+        getEquipmentTable();
         document.getElementById("equipment_results").innerHTML = "Equipment removed successfully";
     }).catch(err => {
         console.log(err);
@@ -159,7 +161,18 @@ function putEquipment(updatedEquipment) {
         },
         body: updatedEquipment
     }).then(response => {
-        getEquipmentTable(); // refresh concessions table after put is complete
+        getEquipmentTable();
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
+//////////////////////////////////////////////////////// Equipment
+function getTransactionTable() {    
+    fetch(transactionsApiUrl).then(response => {
+        return response.json();
+    }).then(data => {
+        transactionTable = data;
     }).catch(err => {
         console.log(err);
     });

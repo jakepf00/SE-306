@@ -206,7 +206,7 @@ def deleteEquipment(eqId):
         cursor.close() 
         conn.close()
 
-################################################################################### Equipment
+################################################################################### Space reservations
 # GET, POST, PUT
 @app.route('/reservations', methods=['GET', 'POST', 'PUT'])
 def reservations():
@@ -281,6 +281,64 @@ def deleteReservation(ID):
         conn = mysql.connect()
         cursor = conn.cursor()
         cursor.execute("DELETE FROM Reservations WHERE ID=%s", (ID))
+        conn.commit()
+        res = jsonify('Reservation deleted successfully.')
+        res.status_code = 200
+        return res
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close() 
+        conn.close()
+
+################################################################################### Transactions
+# GET, POST
+@app.route('/transactions', methods=['GET', 'POST'])
+def transactions():
+    if request.method == 'GET':
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor(pymysql.cursors.DictCursor)
+            cursor.execute("SELECT * FROM transactions")
+            rows = cursor.fetchall()
+            res = jsonify(rows)
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close() 
+            conn.close()
+    if request.method == 'POST':
+        try:
+            _json = request.json
+            _ID = _json['transactionID']
+            _CustomerID = _json['customerID']
+            _CardNumber = _json['cardNumber']
+            _PaymentAmount = _json['paymentAmount']
+
+            sqlQuery = "INSERT INTO Transactions (Transaction_ID, Customer_ID, CardNumber, PaymentAmount) VALUES(%s, %s, %s, %s)"
+            data = (_ID, _CustomerID, _CardNumber, _PaymentAmount)
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sqlQuery, data)
+            conn.commit()
+            res = jsonify('Reservation created successfully.')
+            res.status_code = 200
+            return res
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            conn.close()
+
+# DELETE
+@app.route('/transactions/<int:ID>', methods=['DELETE'])
+def deleteTransaction(ID):
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Transactions WHERE ID=%s", (ID))
         conn.commit()
         res = jsonify('Reservation deleted successfully.')
         res.status_code = 200
