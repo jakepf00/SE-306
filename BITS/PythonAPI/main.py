@@ -338,7 +338,7 @@ def deleteTransaction(ID):
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Transactions WHERE ID=%s", (ID))
+        cursor.execute("DELETE FROM Transactions WHERE Transaction_ID=%s", (ID))
         conn.commit()
         res = jsonify('Reservation deleted successfully.')
         res.status_code = 200
