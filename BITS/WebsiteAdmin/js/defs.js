@@ -167,12 +167,38 @@ function putEquipment(updatedEquipment) {
     });
 }
 
-//////////////////////////////////////////////////////// Equipment
+//////////////////////////////////////////////////////// Money
 function getTransactionTable() {    
     fetch(transactionsApiUrl).then(response => {
         return response.json();
     }).then(data => {
         transactionTable = data;
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
+function postTransaction(newTransaction) {
+    fetch(transactionsApiUrl, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: newTransaction
+    }).then(response => {
+        getTransactionTable();
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
+function deleteTransaction(transactionID) {
+    var newUrl = transactionsApiUrl + "/" + transactionID;
+    fetch(newUrl, {
+        method: 'DELETE',
+    }).then(response => {
+        getTransactionTable();
+        document.getElementById("transaction_results").innerHTML = "Transaction removed successfully";
     }).catch(err => {
         console.log(err);
     });

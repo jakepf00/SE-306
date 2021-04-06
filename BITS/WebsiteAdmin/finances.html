@@ -79,8 +79,8 @@
       <h1>Money Management</h1>
 	    <p>Manage all payments</p>
       <button type="button" onClick="listTransactions()">List Transactions</button>
-      <button type="button" onClick="payCreditCard()">New Credit Card Payment</button>
-      <button type="button" onClick="payCash()">New Cash Payment</button>
+      <button type="button" data-toggle="modal" data-target="#finances_modal" onClick="payCreditCardModal()">New Credit Card Payment</button>
+      <button type="button" data-toggle="modal" data-target="#finances_modal" onClick="payCashModal()">New Cash Payment</button>
       <hr>
       <div id="transaction_results"></div>
     </div>
