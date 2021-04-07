@@ -5,7 +5,7 @@
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-.row.content {height: 450px}
+.row.content {height: calc(100vh - 112px); }
 
 /* Set gray background color and 100% height */
 .sidenav {
@@ -28,4 +28,25 @@ footer {
     padding: 15px;
 }
 .row.content {height:auto;} 
+}
+
+div.equipment-content {
+    width: auto;
+    height: calc(100vh - 380px);
+    overflow: scroll;
+}
+div.concessions-content {
+    width: auto;
+    height: calc(100vh - 354px);
+    overflow: scroll;
+}
+div.transaction-content {
+    width: auto;
+    height: calc(100vh - 334px);
+    overflow: scroll;
+}
+div.reservations-content {
+    width: auto;
+    height: calc(100vh - 334px);
+    overflow: scroll;
 }
