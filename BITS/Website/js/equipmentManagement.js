@@ -1,4 +1,3 @@
-// called when add eq to database button is clicked
 function newEquipmentModal() {
     var newData = "";
 
@@ -11,7 +10,7 @@ function newEquipmentModal() {
     newData = "<p>Name:</p><input type=\"text\" id=\"new_equipment_name\" size=\"40\"><br><br>";
     newData += "<p>Location:</p><input type=\"text\" id=\"new_equipment_location\" size=\"40\"><br><br>";
     newData += "<p>Quantity:</p><input type=\"text\" id=\"new_equipment_quantity\" size=\"40\"><br><br>";
-    modalBody.innerHTML = newData; // don't need to ask for ID, it will be automatically inferred
+    modalBody.innerHTML = newData; // don't need to ask for ID, it will be automatically generated
 
     var modalFooter = document.getElementById("modal_footer");
     newData = 
@@ -20,16 +19,15 @@ function newEquipmentModal() {
     modalFooter.innerHTML = newData;
 }
 function submitNewEquipment() {
-    var newID = getMaxEquipmentID() + 1;
     var newEquipment = {
-        "eqId": newID,
+        "eqId": generateEquipmentID(),
         "name": document.getElementById("new_equipment_name").value,
         "location": document.getElementById("new_equipment_location").value,
         "quantity": parseInt(document.getElementById("new_equipment_quantity").value)
     }
     postEquipment(JSON.stringify(newEquipment));
 }
-function getMaxEquipmentID() {
+function generateEquipmentID() {
     var max = 0;
     for (i = 0; i < equipmentTable.length; i++) {
         if (equipmentTable[i].Eq_ID > max) {
@@ -42,33 +40,28 @@ function getMaxEquipmentID() {
 var searchString = "";
 var searchCriteria = "name";
 function updateEquipmentList() {
-    // from here, edit the webpage to display received data
-    // loop through table, get each element name, add to list
-    // -> will append to a string that will eventually be used in the HTML 
     var equipmentResults = document.getElementById("equipment_results");
     var newEquipmentList = "";
     var tableLocation = 0;
 
     if (searchCriteria == "name") {
         equipmentTable.forEach(function(item) {
-            if (item.Name.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+            if (item.Name.toLowerCase().includes(searchString.toLowerCase())) {
                 newEquipmentList = newEquipmentList.concat
                     ("<p><a data-toggle=\"modal\" data-target=\"#equipment_modal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
                     + "<p>&emsp;", item.Location,"</p>");
-                // TODO: make list be filtered by search string -> add code for if it didn't match any results
             }
-            tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
+            tableLocation++;
         });
     }
     else if (searchCriteria == "location") {
         equipmentTable.forEach(function(item) {
-            if (item.Location.toLowerCase().includes(searchString.toLowerCase())) { // if search_string is contained within the equipment name
+            if (item.Location.toLowerCase().includes(searchString.toLowerCase())) {
                 newEquipmentList = newEquipmentList.concat
                     ("<p><a data-toggle=\"modal\" data-target=\"#equipment_modal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
                     + "<p>&emsp;", item.Location,"</p>");
-                // TODO: make list be filtered by search string -> add code for if it didn't match any results
             }
-            tableLocation++; // out here because all equipment needs to be numbered, even if it's not displayed
+            tableLocation++;
         });
     }
     if (newEquipmentList != "") {
@@ -82,8 +75,6 @@ function updateEquipmentList() {
     equipmentResults.innerHTML = newEquipmentList;
 }
 
-
-// called when specific equipment is clicked from list
 function displayEquipmentDetails(tableLocation) {
     var newData = "";
 
@@ -109,7 +100,6 @@ function displayEquipmentDetails(tableLocation) {
     modalFooter.innerHTML = newData;
 }
 
-// called when search by name button is clicked
 function searchEquipmentName() {
     searchString = document.getElementById("search_string").value;
     searchCriteria = "name";
@@ -117,7 +107,6 @@ function searchEquipmentName() {
     updateEquipmentList();
 }
 
-// called when search by location button is clicked
 function searchEquipmentLocation() {
     searchString = document.getElementById("search_string").value;
     searchCriteria = "location";
@@ -125,13 +114,11 @@ function searchEquipmentLocation() {
     updateEquipmentList();
 }
 
-// called when sort by name button is clicked
 function sortByName() {
     sortTableByName();    
     updateEquipmentList();
 }
 function sortTableByName() {
-    // TODO: using bubble sort, could probably improve this
     for (i = 0; i < equipmentTable.length; i++) {
         for (j = 0; j < equipmentTable.length - i - 1; j++) {
             if (equipmentTable[j].Name > equipmentTable[j + 1].Name) {
@@ -143,13 +130,11 @@ function sortTableByName() {
     }
 }
 
-// called when sort by location button is clicked
 function sortByLocation() {
     sortTableByLocation();
     updateEquipmentList();
 }
 function sortTableByLocation() {
-    // TODO: using bubble sort, could probably improve this
     for (i = 0; i < equipmentTable.length; i++) {
         for (j = 0; j < equipmentTable.length - i - 1; j++) {
             if (equipmentTable[j].Location > equipmentTable[j + 1].Location) {

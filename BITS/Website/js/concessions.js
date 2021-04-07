@@ -1,4 +1,3 @@
-// called when add new inventory item button is clicked
 function newConcessionsModal() {
     var newData = "";
 
@@ -12,7 +11,7 @@ function newConcessionsModal() {
     newData += "<p>Cost:</p><input type=\"text\" id=\"new_item_cost\" size=\"40\"><br><br>";
     newData += "<p>Quantity:</p><input type=\"text\" id=\"new_item_quantity\" size=\"40\"><br><br>";
     newData += "<p>Location:</p><input type=\"text\" id=\"new_item_location\" size=\"40\"><br><br>";
-    modalBody.innerHTML = newData; // don't need to ask for SKU, it will be automatically inferred
+    modalBody.innerHTML = newData; // don't need to ask for SKU, it will be automatically generated
 
     var modalFooter = document.getElementById("modal_footer");
     newData = 
@@ -21,9 +20,8 @@ function newConcessionsModal() {
     modalFooter.innerHTML = newData;
 }
 function submitNewConcession() {
-    var newSKU = getMaxSKU() + 1;
     var newConcession = {
-        "sku": newSKU,
+        "sku": generateSKU(),
         "itemName": document.getElementById("new_item_name").value,
         "cost": parseFloat(document.getElementById("new_item_cost").value),
         "quantity": parseInt(document.getElementById("new_item_quantity").value),
@@ -31,26 +29,20 @@ function submitNewConcession() {
     }
     postConcession(JSON.stringify(newConcession));
 }
-function getMaxSKU() {
+function generateSKU() {
     var max = 0;
     for (i = 0; i < concessionsTable.length; i++) {
         if (concessionsTable[i].SKU > max) {
             max = concessionsTable[i].SKU;
         }
     }
-    return max;
+    return max + 1;
 }
 
-// called when search button is clicked
 function displaySKU() {
     var SKU = document.getElementById("search_sku").value;
     var tableLocation = findItemInSystem(SKU);
     updateWebpage(tableLocation);
-}
-
-// Called when update stock level button is clicked on a specific item
-function updateItem(SKU) {
-    console.log("Updating item " + SKU);
 }
 
 function orderInventory(tableLocation) {

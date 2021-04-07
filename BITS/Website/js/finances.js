@@ -1,6 +1,5 @@
 function listTransactions() {
     var newData = "";
-
     for (i = 0; i < transactionTable.length; i++) {
         newData += "<p>Transaction Number: " + transactionTable[i].Transaction_ID + "</p>"
             + "<p>Customer ID: " + transactionTable[i].Customer_ID + "</p>"
@@ -8,7 +7,6 @@ function listTransactions() {
             + "<p>Transaction Amount: $" + transactionTable[i].PaymentAmount.toFixed(2) + "</p>"
             + "<button type=\"button\" onClick=\"deleteTransaction(" + transactionTable[i].Transaction_ID + ")\">Delete Transaction</button><hr>";
     }
-
     if (newData == "") {
         newData += "No transactions completed";
     }
