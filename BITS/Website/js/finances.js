@@ -53,7 +53,7 @@ function payCashModal() {
 
     var modalTitle = document.getElementById("modal_header");
     newData = "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
-    newData += "<h4 class=\"modal-title\">Credit Card Payment</h4>";
+    newData += "<h4 class=\"modal-title\">Cash Payment</h4>";
     modalTitle.innerHTML = newData;
 
     var financesModal = document.getElementById("modal_body");
