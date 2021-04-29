@@ -103,7 +103,7 @@ function newReservationModal() {
     newData += "<p>Location:</p><input type=\"text\" id=\"new_reservation_location\" size=\"40\"><br><br>";
     newData += "<p>Event Type:</p><select id=\"new_reservation_event_type\"><option value=\"1\">Tournament</option><option value=\"2\">Personal Reservation</option><option value=\"3\">Other Event</option></select><br><br>";
     newData += "<p>Date and Time:</p><input type=\"text\" id=\"new_reservation_date_time\" size=\"40\"><br><br>";
-    newData += "<p>Equipment:</p>" + generateEqSelector();
+    newData += "<p>Equipment:</p>" + generateEqSelector(0);
     modalBody.innerHTML = newData; // don't need to ask for ID, it will be automatically generated
 
     var modalFooter = document.getElementById("modal_footer");
@@ -132,15 +132,21 @@ function generateReservationID() {
     }
     return max + 1;
 }
-function generateEqSelector() {
+function generateEqSelector(selected) {
     sortEqTable();
     equipmentSelector = "";
-    equipmentSelector += "<select id=\"new_reservation_equipment\"><option value=\"0\">No Equipment</option>"
+
+    if (selected == 0) equipmentSelector += "<select id=\"new_reservation_equipment\"><option value=\"0\" selected>No Equipment</option>";
+    else equipmentSelector += "<select id=\"new_reservation_equipment\"><option value=\"0\">No Equipment</option>";
+
     for (i = 0; i < equipmentTable.length; i++) {
         if (equipmentTable[i].Eq_ID != 0) {
-            equipmentSelector += "<option value=\"" + equipmentTable[i].Eq_ID + "\">" + equipmentTable[i].Name + "</option>"
+            if (selected == equipmentTable[i].Eq_ID)
+                equipmentSelector += "<option value=\"" + equipmentTable[i].Eq_ID + "\" selected>" + equipmentTable[i].Name + "</option>";
+            else equipmentSelector += "<option value=\"" + equipmentTable[i].Eq_ID + "\">" + equipmentTable[i].Name + "</option>";
         }
     }
+
     equipmentSelector += "</select><br><br>";
     return equipmentSelector;
 }
@@ -156,9 +162,19 @@ function editReservationModal(tableLocation) {
     var modalBody = document.getElementById("modal_body");
     newData = "<p>Name:</p><input type=\"text\" id=\"edit_reservation_name\" size=\"40\" value=\"" + reservationsTable[tableLocation].Name + "\"><br><br>";
     newData += "<p>Location:</p><input type=\"text\" id=\"edit_reservation_location\" size=\"40\" value=\"" + reservationsTable[tableLocation].Location + "\"><br><br>";
-    newData += "<p>Event Type:</p><input type=\"text\" id=\"edit_reservation_event_type\" size=\"40\" value=\"" + reservationsTable[tableLocation].EventType + "\"><br><br>";
+    switch (reservationsTable[tableLocation].EventType) {
+        case 1:
+            newData += "<p>Event Type:</p><select id=\"edit_reservation_event_type\"><option value=\"1\">Tournament</option><option value=\"2\">Personal Reservation</option><option value=\"3\">Other Event</option></select><br><br>";
+            break;
+        case 2:
+            newData += "<p>Event Type:</p><select id=\"edit_reservation_event_type\"><option value=\"1\">Tournament</option><option value=\"2\" selected>Personal Reservation</option><option value=\"3\">Other Event</option></select><br><br>";
+            break;
+        case 3:
+            newData += "<p>Event Type:</p><select id=\"edit_reservation_event_type\"><option value=\"1\">Tournament</option><option value=\"2\">Personal Reservation</option><option value=\"3\" selected>Other Event</option></select><br><br>";
+            break;
+    }
     newData += "<p>Date and Time:</p><input type=\"text\" id=\"edit_reservation_date_time\" size=\"40\" value=\"" + reservationsTable[tableLocation].DateTime + "\"><br><br>";
-    newData += "<p>Equipment:</p><input type=\"text\" id=\"edit_reservation_equipment\" size=\"40\" value=\"" + reservationsTable[tableLocation].Equipment + "\"><br><br>";
+    newData += "<p>Equipment:</p>" + generateEqSelector(reservationsTable[tableLocation].Equipment);
     modalBody.innerHTML = newData;
 
     var modalFooter = document.getElementById("modal_footer");
@@ -204,14 +220,14 @@ function checkAvailability() {
     var space = document.getElementById("space_to_check").value;
     var newData = ""
     for (i = 0; i < reservationsTable.length; i++) {
-        if (reservationsTable[i].Location == space) {
-            newData += "<p>" + reservationsTable[i].Name + " at " + reservationsTable[i].DateTime + "</p>";
+        if (reservationsTable[i].Location.toLowerCase() == space.toLowerCase()) {
+            newData += "<p>" + reservationsTable[i].DateTime + " - " + reservationsTable[i].Name + "</p>";
         }
     }
     if (newData == "") {
         newData = "<p>Space not in use</p>";
     }
-    else newData = "<p>Space in use by</p>" + newData;
+    else newData = "<p>Space in use:</p>" + newData;
     document.getElementById("reservation_results").innerHTML = newData;
 }
 
@@ -268,7 +284,7 @@ function getEqName(id) {
     for (j = 0; j < equipmentTable.length; j++) {
         if (id == equipmentTable[j].Eq_ID) return equipmentTable[j].Name;
     }
-    return "No equipment";
+    return "No Equipment";
 }
 
 function sortEqTable() {
