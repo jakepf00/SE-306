@@ -10,7 +10,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body onload="getReservationsTable()">
+<body onload="initializeTables()">
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -54,8 +54,9 @@
       <div class="reservations-content" id="reservation_results"></div>
     </div>
     <div class="col-sm-2 sidenav">
-      <button type="button" data-toggle="modal" data-target="#reservation_modal"onClick="newReservationModal()">Make New Reservation</button><br><br>
-      <button type="button" data-toggle="modal" data-target="#reservation_modal"onClick="checkAvailabilityModal()">Check Space Availability</button>
+      <button type="button" data-toggle="modal" data-target="#reservation_modal" onClick="newReservationModal()">Make New Reservation</button><br><br>
+      <button type="button" data-toggle="modal" data-target="#reservation_modal" onClick="checkAvailabilityModal()">Check Space Availability</button><br><br>
+      <button type="button" onClick="displaySchedule()">Display Schedule</button>
     </div>
   </div>
 </div>

@@ -1,3 +1,8 @@
+function initializeTables() {
+    getReservationsTable();
+    getEquipmentTable();
+}
+
 function listTournaments() {
     var newData = "";
     for (i = 0; i < reservationsTable.length; i++) {
@@ -6,7 +11,7 @@ function listTournaments() {
                 + "<p>Location: " + reservationsTable[i].Location + "</p>"
                 + "<p>Event Type: Tournament</p>"
                 + "<p>Date/Time: " + reservationsTable[i].DateTime + "</p>"
-                + "<p>Equipment: " + reservationsTable[i].Equipment + "</p>"
+                + "<p>Equipment: " + getEqName(reservationsTable[i].Equipment) + "</p>"
                 + "<button type=\"button\" onClick=\"deleteReservation(" + reservationsTable[i].ID + ")\">Cancel Reservation</button>"
                 + "<button type=\"button\" data-toggle=\"modal\" data-target=\"#reservation_modal\" onClick=\"editReservationModal(" + i + ")\">Edit Reservation</button>"
                 + "<hr>";
@@ -30,7 +35,7 @@ function listReservations() {
                 + "<p>Location: " + reservationsTable[i].Location + "</p>"
                 + "<p>Event Type: Personal Reservation</p>"
                 + "<p>Date/Time: " + reservationsTable[i].DateTime + "</p>"
-                + "<p>Equipment: " + reservationsTable[i].Equipment + "</p>"
+                + "<p>Equipment: " + getEqName(reservationsTable[i].Equipment) + "</p>"
                 + "<button type=\"button\" onClick=\"deleteReservation(" + reservationsTable[i].ID + ")\">Cancel Reservation</button>"
                 + "<button type=\"button\" data-toggle=\"modal\" data-target=\"#reservation_modal\" onClick=\"editReservationModal(" + i + ")\">Edit Reservation</button>"
                 + "<hr>";
@@ -55,7 +60,7 @@ function listOther() {
                 + "<p>Location: " + reservationsTable[i].Location + "</p>"
                 + "<p>Event Type: Other Reservation</p>"
                 + "<p>Date/Time: " + reservationsTable[i].DateTime + "</p>"
-                + "<p>Equipment: " + reservationsTable[i].Equipment + "</p>"
+                + "<p>Equipment: " + getEqName(reservationsTable[i].Equipment) + "</p>"
                 + "<button type=\"button\" onClick=\"deleteReservation(" + reservationsTable[i].ID + ")\">Cancel Reservation</button>"
                 + "<button type=\"button\" data-toggle=\"modal\" data-target=\"#reservation_modal\" onClick=\"editReservationModal(" + i + ")\">Edit Reservation</button>"
                 + "<hr>";
@@ -69,6 +74,18 @@ function listOther() {
         + "<button type=\"button\" onClick=\"sortByEquipment(3)\">Equipment</button>"
         + "<button type=\"button\" onClick=\"sortByDateTime(3)\">Date and Time</button><br><br>" + newData;
 
+    document.getElementById("reservation_results").innerHTML = newData;
+}
+
+function displaySchedule() {
+    var newData = "";
+    sortByDateTime(4);
+    for (i = 0; i < reservationsTable.length; i++) {
+        newData += "<p>" + reservationsTable[i].DateTime + " - " + reservationsTable[i].Name + "</p>";
+    }
+    if (newData == "") {
+        newData += "No events available";
+    }
     document.getElementById("reservation_results").innerHTML = newData;
 }
 
@@ -233,4 +250,11 @@ function sortByDateTime(eventType) {
         case 2: listReservations(); break;
         case 3: listOther(); break;
     }
+}
+
+function getEqName(id) {
+    for (j = 0; j < equipmentTable.length; j++) {
+        if (id == equipmentTable[j].Eq_ID) return equipmentTable[j].Name;
+    }
+    return "No equipment";
 }

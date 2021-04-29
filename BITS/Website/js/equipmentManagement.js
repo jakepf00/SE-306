@@ -34,7 +34,7 @@ function generateEquipmentID() {
             max = equipmentTable[i].Eq_ID;
         }
     }
-    return max;
+    return max + 1;
 }
 
 var searchString = "";
