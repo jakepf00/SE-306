@@ -46,7 +46,7 @@ function updateEquipmentList() {
 
     if (searchCriteria == "name") {
         equipmentTable.forEach(function(item) {
-            if (item.Name.toLowerCase().includes(searchString.toLowerCase())) {
+            if (item.Name.toLowerCase().includes(searchString.toLowerCase()) && item.Eq_ID != 0) {
                 newEquipmentList = newEquipmentList.concat
                     ("<p><a data-toggle=\"modal\" data-target=\"#equipment_modal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
                     + "<p>&emsp;", item.Location,"</p>");
@@ -56,7 +56,7 @@ function updateEquipmentList() {
     }
     else if (searchCriteria == "location") {
         equipmentTable.forEach(function(item) {
-            if (item.Location.toLowerCase().includes(searchString.toLowerCase())) {
+            if (item.Location.toLowerCase().includes(searchString.toLowerCase()) && item.Eq_ID != 0) {
                 newEquipmentList = newEquipmentList.concat
                     ("<p><a data-toggle=\"modal\" data-target=\"#equipment_modal\" onclick=\"displayEquipmentDetails(", tableLocation, ")\">", item.Name, "</p></a>"
                     + "<p>&emsp;", item.Location,"</p>");
