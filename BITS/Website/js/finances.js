@@ -92,11 +92,47 @@ function generateTransactionNumber() {
 }
 
 function sortByCustomerID() {
-
+    sortTableByCustomerID();
+    listTransactions();
+}
+function sortTableByCustomerID() {
+    for (i = 0; i < transactionTable.length; i++) {
+        for (j = 0; j < transactionTable.length - i - 1; j++) {
+            if (transactionTable[j].Customer_ID > transactionTable[j + 1].Customer_ID) {
+                var temp = transactionTable[j];
+                transactionTable[j] = transactionTable[j + 1];
+                transactionTable[j + 1] = temp;
+            }
+        }
+    }
 }
 function sortByTransactionAmount() {
-
+    sortTableByTransactionAmount();
+    listTransactions();
+}
+function sortTableByTransactionAmount() {
+    for (i = 0; i < transactionTable.length; i++) {
+        for (j = 0; j < transactionTable.length - i - 1; j++) {
+            if (transactionTable[j].PaymentAmount > transactionTable[j + 1].PaymentAmount) {
+                var temp = transactionTable[j];
+                transactionTable[j] = transactionTable[j + 1];
+                transactionTable[j + 1] = temp;
+            }
+        }
+    }
 }
 function sortByTransactionID() {
-
+    sortTableByTransactionID();
+    listTransactions();
+}
+function sortTableByTransactionID() {
+    for (i = 0; i < transactionTable.length; i++) {
+        for (j = 0; j < transactionTable.length - i - 1; j++) {
+            if (transactionTable[j].Transaction_ID > transactionTable[j + 1].Transaction_ID) {
+                var temp = transactionTable[j];
+                transactionTable[j] = transactionTable[j + 1];
+                transactionTable[j + 1] = temp;
+            }
+        }
+    }
 }
