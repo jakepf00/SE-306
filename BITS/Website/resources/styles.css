@@ -32,12 +32,12 @@ footer {
 
 div.equipment-content {
     width: auto;
-    height: calc(100vh - 380px);
+    height: calc(100vh - 334px);
     overflow: scroll;
 }
 div.concessions-content {
     width: auto;
-    height: calc(100vh - 354px);
+    height: calc(100vh - 334px);
     overflow: scroll;
 }
 div.transaction-content {
