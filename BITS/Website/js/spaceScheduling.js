@@ -103,7 +103,7 @@ function newReservationModal() {
     newData += "<p>Location:</p><input type=\"text\" id=\"new_reservation_location\" size=\"40\"><br><br>";
     newData += "<p>Event Type:</p><select id=\"new_reservation_event_type\"><option value=\"1\">Tournament</option><option value=\"2\">Personal Reservation</option><option value=\"3\">Other Event</option></select><br><br>";
     newData += "<p>Date and Time:</p><input type=\"text\" id=\"new_reservation_date_time\" size=\"40\"><br><br>";
-    newData += "<p>Equipment:</p>" + generateEqSelector(0);
+    newData += "<p>Equipment:</p>" + generateEqSelector(0, "new_reservation_equipment");
     modalBody.innerHTML = newData; // don't need to ask for ID, it will be automatically generated
 
     var modalFooter = document.getElementById("modal_footer");
@@ -132,12 +132,12 @@ function generateReservationID() {
     }
     return max + 1;
 }
-function generateEqSelector(selected) {
+function generateEqSelector(selected, id) {
     sortEqTable();
     equipmentSelector = "";
 
     if (selected == 0) equipmentSelector += "<select id=\"new_reservation_equipment\"><option value=\"0\" selected>No Equipment</option>";
-    else equipmentSelector += "<select id=\"new_reservation_equipment\"><option value=\"0\">No Equipment</option>";
+    else equipmentSelector += "<select id=\"" + id + "\"><option value=\"0\">No Equipment</option>";
 
     for (i = 0; i < equipmentTable.length; i++) {
         if (equipmentTable[i].Eq_ID != 0) {
@@ -174,7 +174,7 @@ function editReservationModal(tableLocation) {
             break;
     }
     newData += "<p>Date and Time:</p><input type=\"text\" id=\"edit_reservation_date_time\" size=\"40\" value=\"" + reservationsTable[tableLocation].DateTime + "\"><br><br>";
-    newData += "<p>Equipment:</p>" + generateEqSelector(reservationsTable[tableLocation].Equipment);
+    newData += "<p>Equipment:</p>" + generateEqSelector(reservationsTable[tableLocation].Equipment, "edit_reservation_equipment");
     modalBody.innerHTML = newData;
 
     var modalFooter = document.getElementById("modal_footer");
